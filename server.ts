@@ -388,11 +388,19 @@ async function handler(req: Request): Promise<Response> {
     const hostname = url.hostname;
     community = DOMAIN_MAP[hostname];
 
+    // Debug logging
+    console.log(`[${new Date().toISOString()}] Production request: ${url.pathname}`);
+    console.log(`  Hostname: ${hostname}`);
+    console.log(`  Community: ${community || "NOT FOUND"}`);
+    console.log(`  Available domains:`, Object.keys(DOMAIN_MAP));
+
     if (!community) {
-      return new Response(
-        `Unknown domain: ${hostname}. Expected domains: ${Object.keys(DOMAIN_MAP).join(", ")}`,
-        { status: 404 }
-      );
+      const errorMsg = `Unknown domain: ${hostname}\n\nExpected domains:\n${Object.keys(DOMAIN_MAP).map(d => `  - ${d}`).join("\n")}`;
+      console.error(errorMsg);
+      return new Response(errorMsg, {
+        status: 404,
+        headers: { "content-type": "text/plain; charset=utf-8" }
+      });
     }
   } else {
     // Development mode: use cookie-based selection
