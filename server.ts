@@ -11,6 +11,8 @@ const DOMAIN_MAP: Record<string, string> = {
   "www.waterlilies.energy": "waterlilies",
   "hazelmead.energy": "hazelmead",
   "www.hazelmead.energy": "hazelmead",
+  // Default Deno Deploy domain - serve waterlilies for testing
+  "www-communities-lume-mgf.deno.dev": "waterlilies",
 };
 
 // Community selection page HTML
