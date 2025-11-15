@@ -1,0 +1,20 @@
+<!-- Site Header - Start
+================================================== -->
+<header class="site-header">
+  <div class="container-fluid">
+    <div class="row">
+      <h1 class="hero-title">
+        <a class="brand_link" href="/">
+          Net zero energy communities
+        </a>
+      </h1>
+      {{ if esco }}
+      <a class="btn" href="{{ esco.app_url }}">
+        Customer {{ esco.name == 'Hazelmead' ? 'Log In' : 'Sign In' }}
+      </a>
+      {{ /if }}
+    </div>
+  </div>
+</header>
+<!-- Site Header - End
+================================================== -->

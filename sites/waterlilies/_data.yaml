@@ -1,0 +1,31 @@
+title: "Water Lilies Community Energy"
+google_analytics_id: "G-DTPQPFRN9Z"
+
+homepage:
+  show_call_box: true
+
+logo:
+  main: "/assets/images/logo.png"
+  light: "/assets/images/logo-light.png"
+
+esco:
+  name: "Water Lilies"
+  domain: waterlilies.energy
+  email: hello@waterlilies.energy
+  phone: "+44 330 828 3096"
+  app_url: https://app.waterlilies.energy
+  image:
+    filename: water-lilies-battery-landing.webp
+    alt: "Water Lilies Battery Landing"
+  description: "Bright Green Futures, Clean Energy Prospector, and Bristol Energy Co-operative have partnered to design a microgrid at the Water Lilies housing development in Kingsweston, Bristol that is redefining the way housing estates provide an energy service to its residents."
+  investor_description: "Bristol Energy Cooperative (BEC) a ground-breaking community benefit society founded in 2011. BEC has over 9MW of solar PV under community ownership and has provided over £250,000 of community benefit payments to local organisations since inception."
+
+seo:
+  meta_og_title: "Water Lilies Community Energy"
+  meta_og_type: "website"
+  meta_og_url: "https://www.waterlilies.energy/"
+  meta_og_image: "https://www.waterlilies.energy/assets/images/cepro-illa-water-lillies-2.webp"
+  meta_og_description: "Bright Green Futures, Clean Energy Prospector, and Bristol Energy Co-operative have partnered to design a microgrid at the Water Lilies housing development in Kingsweston, Bristol that is redefining the way housing estates provide an energy service to its residents."
+  meta_twitter_card: "summary"
+  meta_twitter_site: "@mappix"
+  meta_twitter_creator: "@mappix"

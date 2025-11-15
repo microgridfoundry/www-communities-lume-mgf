@@ -1,0 +1,31 @@
+title: "Hazelmead Community Energy"
+google_analytics_id: "G-BZ0JNJMGT6"
+
+homepage:
+  show_call_box: true
+
+logo:
+  main: "/assets/images/logo.png"
+  light: "/assets/images/logo-light.png"
+
+esco:
+  name: "Hazelmead"
+  domain: hazelmead.energy
+  email: hello@hazelmead.energy
+  phone: "+44 330 828 3096"
+  app_url: https://app.hazelmead.energy
+  image:
+    filename: ev-chargers.png
+    alt: "Hazelmead EV chargers on site"
+  description: "Bridport Cohousing, Clean Energy Prospector, and Bristol Energy Co-operative have partnered to design a microgrid at the Hazelmead housing development that is redefining the way housing estates provide an energy service to its residents."
+  investor_description: "Bristol Energy Cooperative (BEC) a ground-breaking community benefit society founded in 2011. BEC has over 9MW of solar PV under community ownership and has provided over £250,000 of community benefit payments to local organisations since inception."
+
+seo:
+  meta_og_title: "Hazelmead Community Energy"
+  meta_og_type: "website"
+  meta_og_url: "https://www.hazelmead.energy"
+  meta_og_image: "https://www.hazelmead.energy/assets/images/cepro-illa-2.webp"
+  meta_og_description: "Bridport Cohousing, Clean Energy Prospector, and Bristol Energy Co-operative have partnered to design a microgrid at the Hazelmead housing development that is redefining the way housing estates provide an energy service to its residents."
+  meta_twitter_card: "summary"
+  meta_twitter_site: "@mappix"
+  meta_twitter_creator: "@mappix"

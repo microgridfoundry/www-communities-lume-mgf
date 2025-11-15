@@ -1,0 +1,29 @@
+<!-- About Section - Start
+================================================== -->
+<section class="about-section section-space">
+  <div class="container">
+    <div class="row">
+      <div class="about-image">
+        <img src="/assets/images/{{ esco.image.filename }}" alt="{{ esco.image.alt }}">
+      </div>
+      <div class="about-content">
+        <h2 class="heading-title">
+          Community Energy Reinvented
+        </h2>
+        <p class="heading-description">
+          {{ esco.description }}
+        </p>
+        <p>
+          As the technology behind solar PV panels, inverters, and battery energy storage systems has improved, it has
+          now become possible to build a microgrid system that shares key parts of the infrastructure, and get the
+          benefit of scale across a small site such as {{ esco.name }}.
+        </p>
+        <a class="btn" href="{{ esco.app_url }}">
+          Customer {{ esco.name == 'Hazelmead' ? 'Log In' : 'Sign In' }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- About Section - End
+================================================== -->

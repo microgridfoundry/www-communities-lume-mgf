@@ -1,0 +1,26 @@
+{
+  "tasks": {
+    "lume": "deno run -A https://deno.land/x/lume/cli.ts",
+    "build": "deno task lume",
+    "build:validate": "deno task build && deno task check && deno task validate:html",
+    "check": "deno check _config.ts server.ts",
+    "validate:html": "deno run -A tests/validate-html.ts",
+    "dev": "deno run -A server.ts",
+    "serve": "deno task lume --serve",
+    "test:visual": "deno run -A tests/visual-regression.ts",
+    "test:visual:update": "deno run -A tests/visual-regression.ts --update-baseline",
+    "test:visual:quick": "deno run -A tests/visual-regression.ts --quick",
+    "test:visual:update:quick": "deno run -A tests/visual-regression.ts --update-baseline --quick"
+  },
+  "imports": {
+    "@std/path": "jsr:@std/path@^1.0.8",
+    "@std/http": "jsr:@std/http@^1.0.10",
+    "puppeteer": "npm:puppeteer@^23.11.1",
+    "pixelmatch": "npm:pixelmatch@^6.0.0",
+    "pngjs": "npm:pngjs@^7.0.0"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "npm:react"
+  }
+}

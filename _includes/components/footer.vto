@@ -1,0 +1,17 @@
+<!-- Site Footer - Start
+================================================== -->
+<footer class="site-footer">
+  <div class="container-fluid">
+    <a class="footer-cepro-logo" href="https://cepro.energy">
+      <img src="/assets/images/CEPRO_Inline-tag-white.png" alt="CEPRO logo">
+    </a>
+    {{ if esco }}
+    <ul class="contact-info-list">
+      <li><a href="mailto:{{ esco.email }}"><strong>Email:</strong> {{ esco.email }}</a></li>
+      <li><a href="tel:{{ esco.phone }}"><strong>Phone:</strong> {{ esco.phone }}</a></li>
+    </ul>
+    {{ /if }}
+  </div>
+</footer>
+<!-- Site Footer - End
+================================================== -->

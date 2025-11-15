@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ if title }}{{ title }}{{ else }}{{ title }}{{ /if }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico">
+  <link href="/assets/css/style.css" rel="stylesheet">
+
+  {{ if description }}
+  <meta name="description" content="{{ description }}" />
+  {{ /if }}
+
+  {{ if seo }}
+  <meta property="og:title" content="{{ seo.meta_og_title }}" />
+  <meta property="og:type" content="{{ seo.meta_og_type }}" />
+  <meta property="og:url" content="{{ seo.meta_og_url }}" />
+  <meta property="og:image" content="{{ seo.meta_og_image }}" />
+  <meta property="og:description" content="{{ seo.meta_og_description }}" />
+  <meta name="twitter:card" content="{{ seo.meta_twitter_card }}" />
+  <meta name="twitter:site" content="{{ seo.meta_twitter_site }}" />
+  <meta name="twitter:creator" content="{{ seo.meta_twitter_creator }}" />
+  {{ /if }}
+  {{ if esco }}
+  <meta name="author" content="{{ esco.domain }}">
+  {{ /if }}
+
+  {{ if env == "production" && google_analytics_id }}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_id }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ google_analytics_id }}');
+  </script>
+  {{ /if }}
+</head>
+<body class='page {{ bodyClass }}'>
+  <div id="wrapper" class="page-wrapper">
+    {{ include "components/header.vto" }}
+    <div class="page-content">
+      {{ content |> safe }}
+    </div>
+  </div>
+  {{ include "components/footer.vto" }}
+</body>
+</html>

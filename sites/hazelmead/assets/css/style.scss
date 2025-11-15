@@ -1,0 +1,419 @@
+/*
+	* Template Global Reset - Start
+*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #000000;
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 1.6;
+	font-style: normal;
+	background-color: #FFFFFF;
+	font-family: "Poppins", sans-serif;
+	text-rendering: optimizelegibility;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
+.page-wrapper {
+	overflow: hidden;
+	position: relative;
+}
+
+img {
+	border: none;
+	height: auto;
+	max-width: 100%;
+	user-select: none;
+	vertical-align: middle;
+}
+
+a {
+	outline: 0;
+	display: inline-block;
+	text-decoration: none;
+}
+a:active, a:focus, a:hover, a:visited {
+	outline: 0;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	color: #000000;
+	font-weight: 700;
+	line-height: 1.2;
+	font-family: "Poppins", sans-serif;
+}
+
+p {
+	margin: 0 0 20px;
+}
+
+.container {
+	max-width: 1170px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.container-fluid {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+[class*=col-] {
+	padding: 15px;
+}
+
+.section-space {
+	padding: 100px 0;
+}
+
+.btn {
+	color: rgb(255, 255, 255);
+	line-height: 1;
+	font-size: 22px;
+	font-weight: 600;
+	padding: 10px 12px;
+	border-radius: 3px;
+	background-color: #FFD43E;
+	transition: .4s ease;
+}
+.btn:hover {
+	color: #FFFFFF;
+	background-color: #17CCB0;
+}
+/*
+	* Template Global Reset - End
+*/
+
+/*
+	* Site Header - Start
+*/
+.site-header {
+	padding: 15px 0;
+	background-color: #000A30;
+}
+.site-header .row {
+	justify-content: space-between;
+}
+.site-header .hero-title {
+	color: #FFFFFF;
+	line-height: 1;
+	font-size: 20px;
+	a {
+		color: inherit;
+	}
+}
+/*
+	* Site Header - End
+*/
+
+/*
+	* Site Footer - Start
+*/
+.site-footer {
+	padding: 33px 0;
+	background-color: #d97399;
+}
+.contact-info-list > li {
+	line-height: 1;
+	font-size: 20px;
+	font-weight: 600;
+}
+.contact-info-list > li:not(:last-child) {
+	margin-bottom: 14px;
+}
+.contact-info-list strong {
+	color: #000000;
+}
+.contact-info-list a {
+	color: #FFFFFF;
+}
+.footer-cepro-logo {
+	float: right;
+	width: 400px;
+}
+.footer-cepro-logo img {
+	max-width: 100%;
+	height: auto;
+}
+/*
+	* Site Footer - End
+*/
+
+/*
+	* Hero Section - Start
+*/
+.hero-section {
+	background-size: 490px;
+	background-color: #F7F0F0;
+	background-repeat: no-repeat;
+	background-position: right 26% bottom;
+}
+.hero-image {
+	max-width: 716px;
+}
+/*
+	* Hero Section - End
+*/
+
+/*
+	* About Section - Start
+*/
+.heading-title {
+	font-size: 44px;
+	margin-bottom: 16px;
+}
+.about-section {
+	background-image: radial-gradient(at top right, #F5E58A38 26%, #FFFFFF 33%);
+}
+.about-section .row {
+	gap: 50px;
+}
+.about-image {
+	flex: 0 0 auto;
+	max-width: 342px;
+	overflow: hidden;
+	border-radius: 0px 25px 0px 75px;
+}
+.about-content {
+	flex: 1;
+}
+/*
+	* About Section - End
+*/
+
+/*
+	* Investor Section - Start
+*/
+.investor-section {
+	padding: 40px 0;
+	background-color: #000A30;
+}
+.investor-section .row {
+	gap: 50px;
+}
+.investor-section .paper-flower {
+	max-width: 142px;
+}
+.investor-section .heading-title {
+	color: #FFFFFF;
+	font-size: 30px;
+}
+.investor-section .heading-title u {
+	text-decoration-thickness: 2px;
+	text-decoration-color: #D97399;
+}
+.investor-section .heading-description {
+	color: #FFFFFF;
+	margin-bottom: 0;
+}
+.investor-section .investor-content {
+	flex: 1;
+}
+/*
+	* Investor Section - End
+*/
+
+/*
+	* Benefit Section - Start
+*/
+.benefit-section {
+	background-image: radial-gradient(at top left, #F5E58A38 26%, #FFFFFF 58%);
+}
+.benefit-section .content-area {
+	padding: 50px 50px 70px;
+	background-color: #F7F0F0;
+	border-radius: 0px 75px 0px 100px;
+}
+.benefit-section .row {
+	justify-content: space-between;
+}
+.benefit-section .benefit-content {
+	max-width: 520px;
+}
+.benefit-section .benefit-image {
+	flex: 0 0 auto;
+	max-width: 468px;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+ul > li {
+	font-weight: 600;
+}
+ul > li:not(:last-child) {
+	margin-bottom: 6px;
+}
+/*
+	* Benefit Section - End
+*/
+
+/*
+	* Support Pages - Start
+*/
+.support-nav {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 30px;
+	border-bottom: 2px solid #FFD43E;
+}
+.support-nav a {
+	padding: 10px 20px;
+	font-weight: 600;
+	color: #000000;
+	border-bottom: 3px solid transparent;
+	margin-bottom: -2px;
+}
+.support-nav a:hover,
+.support-nav a.active {
+	color: #17CCB0;
+	border-bottom-color: #17CCB0;
+}
+.support-section {
+	padding: 50px 0;
+}
+.support-section h2 {
+	margin-bottom: 20px;
+}
+.support-section h3 {
+	margin-top: 30px;
+	margin-bottom: 15px;
+}
+/*
+	* Support Pages - End
+*/
+
+/*
+	* Responsive - Start
+*/
+@media screen and (max-width: 1560px) {
+	.hero-section {
+		background-position: right 12% bottom;
+	}
+}
+
+@media screen and (max-width: 1199px) {
+	.container {
+		max-width: 900px;
+	}
+	.hero-image {
+		max-width: 530px;
+	}
+	.hero-section {
+		background-size: 390px;
+	}
+	.about-section .row {
+		align-items: flex-start;
+	}
+	.heading-title {
+		font-size: 40px;
+	}
+	.benefit-section .benefit-image {
+		max-width: 100%;
+	}
+	.benefit-section .content-area {
+		padding: 50px 50px 0;
+		border-radius: 0px 40px 0px 0;
+	}
+	.container-fluid {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+@media screen and (max-width: 991px) {
+	.container {
+		max-width: 700px;
+	}
+	[class*="-section"] .row {
+		gap: 30px;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.about-image {
+		max-width: 100%;
+	}
+	.hero-image {
+		max-width: 400px;
+	}
+	.hero-section {
+		background-size: 270px;
+	}
+}
+
+@media screen and (max-width: 680px) {
+	.hero-section {
+		background-size: 160px;
+	}
+	.heading-title {
+		font-size: 36px;
+	}
+	.site-header {
+		padding: 30px 0;
+	}
+	.site-header .row {
+		gap: 30px;
+		text-align: center;
+		flex-direction: column;
+	}
+	.site-header .hero-title {
+		font-size: 24px;
+		line-height: 34px;
+	}
+	.btn {
+		font-size: 20px;
+	}
+	.support-nav {
+		flex-direction: column;
+		gap: 5px;
+	}
+	.support-nav a {
+		border-bottom: none;
+		border-left: 3px solid transparent;
+	}
+	.support-nav a:hover,
+	.support-nav a.active {
+		border-left-color: #17CCB0;
+	}
+}
+
+@media screen and (max-width: 425px) {
+	.hero-section {
+		background-size: 110px;
+	}
+	.about-image {
+		flex: 0 0 auto;
+		max-width: 342px;
+		overflow: hidden;
+		border-radius: 0px 25px 0px 25px;
+	}
+	.heading-title {
+		font-size: 34px;
+	}
+	.benefit-section .content-area {
+		padding: 50px 30px 0;
+		border-radius: 0px 25px 0px 0;
+	}
+	.contact-info-list > li {
+		font-size: 16px;
+	}
+}
+/*
+	* Responsive - End
+*/
