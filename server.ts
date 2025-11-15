@@ -1,3 +1,7 @@
+// 🌍 HELLO WORLD - Server starting up!
+console.log("🌍 HELLO WORLD - Server script is loading!");
+console.log(`   Timestamp: ${new Date().toISOString()}`);
+
 import { serveDir } from "jsr:@std/http/file-server";
 import { getCookies } from "jsr:@std/http/cookie";
 
@@ -284,6 +288,9 @@ function generateDebugPage(): string {
 }
 
 async function handler(req: Request): Promise<Response> {
+  console.log("👋 HELLO WORLD - Request received!");
+  console.log(`   Request URL: ${req.url}`);
+
   const url = new URL(req.url);
 
   // Debug page route (accessible in both dev and production)
