@@ -193,19 +193,25 @@ async function handler(req: Request): Promise<Response> {
 
   let community: string | undefined;
 
-  // In production, determine community from hostname
+  // In production, determine community from hostname first, then fall back to cookie
   if (IS_PRODUCTION) {
-
     const hostname = url.hostname;
     community = DOMAIN_MAP[hostname];
 
+    // If domain not in map, try cookie-based selection (for testing)
     if (!community) {
-      const errorMsg = `Unknown domain: ${hostname}\n\nExpected domains:\n${Object.keys(DOMAIN_MAP).map(d => `  - ${d}`).join("\n")}`;
-      console.error(errorMsg);
-      return new Response(errorMsg, {
-        status: 404,
-        headers: { "content-type": "text/plain; charset=utf-8" }
-      });
+      const cookies = getCookies(req.headers);
+      community = cookies.community;
+
+      // Check if community is valid
+      if (community && !COMMUNITIES.includes(community)) {
+        community = undefined;
+      }
+
+      // If no valid community, redirect to selector
+      if (!community) {
+        return Response.redirect(new URL("/selector", url.origin), 302);
+      }
     }
   } else {
     // Development mode: use cookie-based selection
