@@ -1,14 +1,14 @@
 ---
 title: "Support to Pay Energy Bills"
 layout: layouts/support.vto
-description: "Organizations and resources to help with energy bills at Hazelmead"
+description: "Organisations and resources to help with energy bills at Hazelmead"
 currentPage: energyadvice
 ---
 
 <h2 class="heading-title">Support to Pay Energy Bills</h2>
 
 <p class="heading-description">
-  Organizations and resources that can help if you're struggling with energy costs.
+  Organisations and resources that can help if you're struggling with energy costs.
 </p>
 
 <h3>Household Support Fund</h3>
