@@ -38,7 +38,7 @@ currentPage: support
 <h3>The Water Lilies community is here too</h3>
 
 <p>
-  Your neighbors and the Energy Circle are part of what makes Water Lilies special. They share energy-saving tips, help each other understand bills, and look out for one another. You're not alone here.
+  Your neighbours and the Energy Circle are part of what makes Water Lilies special. They share energy-saving tips, help each other understand bills, and look out for one another. You're not alone here.
 </p>
 
 <h3>Get in touch</h3>
