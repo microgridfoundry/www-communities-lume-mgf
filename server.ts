@@ -331,11 +331,10 @@ async function handler(req: Request): Promise<Response> {
   }
 
   // Serve files from the selected community's built site
-  const siteDir = `./_site/${community}`;
-
-  // Rewrite the request URL to point to the community subdirectory
-  const newUrl = new URL(req.url);
-  const requestPath = url.pathname === "/" ? "/index.html" : url.pathname;
+  // Use absolute path for Deno Deploy compatibility
+  const siteDir = IS_PRODUCTION
+    ? `_site/${community}`  // Deno Deploy: relative to project root
+    : `./_site/${community}`; // Local dev: relative to current directory
 
   try {
     return await serveDir(req, {
