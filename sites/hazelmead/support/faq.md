@@ -83,7 +83,7 @@ currentPage: faq
 <ol>
   <li>Contact us. We can give you information about how your power & lighting and your heating & hot water usage compares to other houses in your block. And we can discuss prepayment options that work better for you.</li>
   <li>Keep pushing for broken air-source heat pumps to be repaired. Your usage will be much higher if your water heating is working only in electric mode. We can give you information specific to your house of how this is affecting your bills.</li>
-  <li>There are grants and organizations who can help you with energy bills. See our <a href="/support/energyadvice/">Energy Advice</a> page.</li>
+  <li>There are grants and organisations who can help you with energy bills. See our <a href="/support/energyadvice/">Energy Advice</a> page.</li>
 </ol>
 
 <h3>What is the impact of the solar panels? How can I maximize the benefit I get from them?</h3>
