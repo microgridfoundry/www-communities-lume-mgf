@@ -38,7 +38,7 @@ currentPage: support
 <h3>The Water Lilies community is here too</h3>
 
 <p>
-  Your neighbours and the Energy Circle are part of what makes Water Lilies special. They share energy-saving tips, help each other understand bills, and look out for one another. You're not alone here.
+  Your neighbours and community are part of what makes Water Lilies special. They share energy-saving tips, help each other understand bills, and look out for one another. You're not alone here.
 </p>
 
 <h3>Get in touch</h3>
@@ -56,12 +56,8 @@ currentPage: support
 <h3>Full details</h3>
 
 <p>
-  For complete information about all our support services, you can download our full Vulnerability Policy.
+  For a copy of our full Vulnerability Policy, please email us at <a href="mailto:hello@waterlilies.energy">hello@waterlilies.energy</a>.
 </p>
-
-<a class="btn" href="/assets/pdf/wlce-vulnerability-policy.pdf" download>
-  Download Vulnerability Policy (PDF)
-</a>
 
 <hr style="margin: 40px 0;">
 
