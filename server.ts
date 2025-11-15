@@ -1,7 +1,3 @@
-// 🌍 HELLO WORLD - Server starting up!
-console.log("🌍 HELLO WORLD - Server script is loading!");
-console.log(`   Timestamp: ${new Date().toISOString()}`);
-
 import { serveDir } from "jsr:@std/http/file-server";
 import { getCookies } from "jsr:@std/http/cookie";
 
@@ -288,9 +284,6 @@ function generateDebugPage(): string {
 }
 
 async function handler(req: Request): Promise<Response> {
-  console.log("👋 HELLO WORLD - Request received!");
-  console.log(`   Request URL: ${req.url}`);
-
   const url = new URL(req.url);
 
   // Debug page route (accessible in both dev and production)
@@ -395,12 +388,6 @@ async function handler(req: Request): Promise<Response> {
     const hostname = url.hostname;
     community = DOMAIN_MAP[hostname];
 
-    // Debug logging
-    console.log(`[${new Date().toISOString()}] Production request: ${url.pathname}`);
-    console.log(`  Hostname: ${hostname}`);
-    console.log(`  Community: ${community || "NOT FOUND"}`);
-    console.log(`  Available domains:`, Object.keys(DOMAIN_MAP));
-
     if (!community) {
       const errorMsg = `Unknown domain: ${hostname}\n\nExpected domains:\n${Object.keys(DOMAIN_MAP).map(d => `  - ${d}`).join("\n")}`;
       console.error(errorMsg);
@@ -463,20 +450,21 @@ async function handler(req: Request): Promise<Response> {
   }
 }
 
+// Log startup info
 if (IS_PRODUCTION) {
-  console.log(`🚀 Production server running on Deno Deploy`);
+  console.log(`🚀 Production server starting on Deno Deploy`);
   console.log(`🌐 Domain-based routing enabled:`);
   for (const [domain, community] of Object.entries(DOMAIN_MAP)) {
     console.log(`   - ${domain} → ${community}`);
   }
-  // Deno Deploy automatically assigns the port
+  // Deno Deploy: just call Deno.serve with handler
   Deno.serve(handler);
 } else {
-  console.log(`🚀 Development server running at http://localhost:${PORT}/`);
+  console.log(`🚀 Development server starting at http://localhost:${PORT}/`);
   console.log(`📍 Visit http://localhost:${PORT}/select-community to choose a community`);
   console.log(`\n💡 Communities available:`);
   console.log(`   - Water Lilies (waterlilies)`);
   console.log(`   - Hazelmead (hazelmead)`);
-  // Local development uses specific port
+  // Local development with specific port
   Deno.serve({ port: PORT }, handler);
 }
