@@ -14,7 +14,7 @@ Consolidate waterlilies.energy and hazelmead.energy into a single git-based CMS 
 ├── _data/
 │   └── common.yml          # Shared constants (phone, etc.)
 ├── sites/
-│   ├── water-lilies/
+│   ├── waterlilies/
 │   │   ├── _data.yml       # Site-specific variables
 │   │   ├── index.md        # Home page content
 │   │   └── support.md      # Support page content
@@ -24,11 +24,11 @@ Consolidate waterlilies.energy and hazelmead.energy into a single git-based CMS 
 │       └── support.md
 ├── assets/
 │   ├── images/
-│   │   ├── water-lilies/
+│   │   ├── waterlilies/
 │   │   └── hazelmead/
 │   └── pdf/
 └── _site/                  # Build output (gitignored)
-    ├── water-lilies/
+    ├── waterlilies/
     └── hazelmead/
 ```
 
@@ -114,7 +114,7 @@ export default site;
 
 ### 5. Create Site Data Files
 
-**`sites/water-lilies/_data.yml`:**
+**`sites/waterlilies/_data.yml`:**
 ```yaml
 siteName: Water Lilies Community Energy
 location: Kingsweston, Bristol
@@ -122,7 +122,7 @@ partner: Bright Green Futures
 email: hello@waterlilies.energy
 phone: +44 330 828 3096
 appUrl: https://app.waterlilies.energy
-heroImage: /assets/images/water-lilies/battery-landing.webp
+heroImage: /assets/images/waterlilies/battery-landing.webp
 address: Unit 21A, Easton Business Centre, Bristol, BS5 0HE
 vulnerabilityPolicyPdf: /assets/pdf/wlce-vulnerability-policy.pdf
 coproCaseStudyUrl: https://cepro.energy
@@ -144,7 +144,7 @@ coproCaseStudyUrl: https://cepro.energy/for-impact-investors/case-study-hazelmea
 
 ### 6. Create Content Pages
 
-**`sites/water-lilies/index.md`:**
+**`sites/waterlilies/index.md`:**
 ```markdown
 ---
 layout: layout.njk
@@ -206,13 +206,13 @@ Deno.serve((req: Request) => {
   
   // Map domains to site directories
   const siteMap: Record<string, string> = {
-    "waterlilies.energy": "./_site/water-lilies",
-    "www.waterlilies.energy": "./_site/water-lilies",
+    "waterlilies.energy": "./_site/waterlilies",
+    "www.waterlilies.energy": "./_site/waterlilies",
     "hazelmead.energy": "./_site/hazelmead",
     "www.hazelmead.energy": "./_site/hazelmead",
   };
-  
-  const siteDir = siteMap[hostname] || "./_site/water-lilies";
+
+  const siteDir = siteMap[hostname] || "./_site/waterlilies";
   
   return serveDir(req, {
     fsRoot: siteDir,
@@ -257,7 +257,7 @@ jobs:
 
 ## Content Editing Workflow
 
-1. **Edit content**: Modify markdown files in `sites/water-lilies/` or `sites/hazelmead/`
+1. **Edit content**: Modify markdown files in `sites/waterlilies/` or `sites/hazelmead/`
 2. **Edit data**: Update `_data.yml` files to change site-specific variables
 3. **Commit to git**: `git add . && git commit -m "Update content"`
 4. **Push**: `git push origin main`
