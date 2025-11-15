@@ -95,11 +95,15 @@
   </div>
   <script>
     function selectCommunity(community) {
+      console.log('Selecting community:', community);
       // Set cookie with community selection
       document.cookie = `community=${community}; path=/; max-age=86400`;
+      console.log('Cookie set:', document.cookie);
       // Redirect to home
+      console.log('Redirecting to /');
       window.location.href = '/';
     }
+    console.log('Selector page loaded');
   </script>
 </body>
 </html>

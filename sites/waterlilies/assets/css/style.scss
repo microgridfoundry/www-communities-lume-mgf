@@ -116,6 +116,23 @@ p {
 		color: inherit;
 	}
 }
+.main-nav {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	a {
+		color: #FFFFFF;
+		font-size: 22px;
+		font-weight: 600;
+		transition: .4s ease;
+		&:hover {
+			color: #17CCB0;
+		}
+		&:not(.btn) {
+			padding: 10px 0;
+		}
+	}
+}
 /*
 	* Site Header - End
 */
@@ -292,8 +309,51 @@ ul > li:not(:last-child) {
 	margin-bottom: 20px;
 }
 .support-section h3 {
-	margin-top: 30px;
+	margin-top: 40px;
 	margin-bottom: 15px;
+	font-size: 22px;
+	color: #000A30;
+	font-weight: 600;
+}
+.support-section h3:first-of-type {
+	margin-top: 30px;
+}
+.support-section p {
+	margin-bottom: 20px;
+	line-height: 1.7;
+}
+.support-section ul,
+.support-section ol {
+	margin-bottom: 20px;
+	padding-left: 25px;
+}
+.support-section ul li,
+.support-section ol li {
+	margin-bottom: 10px;
+	line-height: 1.6;
+}
+.support-section ul {
+	list-style-type: disc;
+}
+.support-section ol {
+	list-style-type: decimal;
+}
+.support-section dl {
+	margin-bottom: 20px;
+}
+.support-section dt {
+	font-weight: 600;
+	margin-top: 15px;
+	margin-bottom: 8px;
+}
+.support-section dd {
+	margin-left: 20px;
+	margin-bottom: 15px;
+}
+.support-section .heading-description {
+	font-size: 18px;
+	color: #666;
+	margin-bottom: 30px;
 }
 /*
 	* Support Pages - End
@@ -375,6 +435,14 @@ ul > li:not(:last-child) {
 	.site-header .hero-title {
 		font-size: 24px;
 		line-height: 34px;
+	}
+	.main-nav {
+		flex-direction: column;
+		gap: 15px;
+		width: 100%;
+		a:not(.btn) {
+			width: 100%;
+		}
 	}
 	.btn {
 		font-size: 20px;

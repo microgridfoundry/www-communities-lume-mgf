@@ -1,64 +1,43 @@
-# Lume Multi-Site CMS - Proof of Concept
+# Lume Multi-Site for Energy Communities
 
-This is a proof-of-concept implementation of a multi-site static site generator using Lume, consolidating two Jekyll sites (Water Lilies and Hazelmead Community Energy) into a single DRY codebase.
+A multi-site static site generator using Lume, serving Water Lilies and Hazelmead Community Energy websites from a single codebase.
 
 ## Features
 
 - **Single Codebase**: Shared templates, styles, and components across both communities
 - **Site-Specific Data**: Each community has its own configuration, content, and assets
 - **Cookie-Based Development**: Local development uses cookies to switch between communities
-- **Visual Regression Testing**: Puppeteer-based pixel-perfect comparison with live production sites
-- **Fast Builds**: 35 files generated in ~0.04 seconds
+- **Domain-Based Production**: Production routes by domain (waterlilies.energy, hazelmead.energy)
+- **Fast Builds**: ~0.04 seconds, 35+ files generated
 
 ## Project Structure
 
 ```
 www-communities-lume/
 ├── _config.ts                # Lume configuration
-├── _includes/                # Shared templates and components
+├── _includes/                # Shared templates (Vento)
 │   ├── layouts/
-│   │   └── default.vto       # Main layout template
 │   └── components/
-│       ├── header.vto
-│       ├── footer.vto
-│       ├── hero.vto
-│       ├── about.vto
-│       ├── investor.vto
-│       ├── benefits.vto
-│       └── support-nav.vto
 ├── _shared/                  # Shared assets
-│   ├── assets/
-│   │   ├── css/
-│   │   │   └── style.scss    # Complete SCSS from Jekyll
-│   │   └── images/           # Shared images
+│   └── assets/
+│       ├── css/style.scss
+│       └── images/
 ├── sites/                    # Community-specific content
 │   ├── waterlilies/
-│   │   ├── _data.yaml        # Water Lilies configuration
-│   │   ├── index.md          # Homepage
-│   │   ├── support.md        # Support page
+│   │   ├── _data.yaml
+│   │   ├── index.md
 │   │   ├── support/
-│   │   │   ├── faq.md
-│   │   │   └── energyadvice.md
-│   │   └── assets/           # WL-specific assets
+│   │   └── assets/
 │   └── hazelmead/
-│       ├── _data.yaml        # Hazelmead configuration
+│       ├── _data.yaml
 │       ├── index.md
-│       ├── support.md
 │       ├── support/
-│       │   ├── faq.md
-│       │   └── energyadvice.md
-│       └── assets/           # HM-specific assets
-├── server.ts                 # Development server with cookie-based routing
-├── tests/
-│   ├── visual-regression.ts  # Puppeteer visual tests
-│   ├── README.md             # Testing documentation
-│   └── screenshots/
-│       ├── baseline/         # Jekyll screenshots (reference)
-│       ├── current/          # Lume screenshots (latest)
-│       └── diff/             # Visual diff images
+│       └── assets/
+├── server.ts                 # Deno server with routing
+├── selector.html             # Community selector page
 └── _site/                    # Generated output
-    ├── waterlilies/          # Water Lilies static site
-    └── hazelmead/            # Hazelmead static site
+    ├── waterlilies/
+    └── hazelmead/
 ```
 
 ## Getting Started
@@ -66,262 +45,130 @@ www-communities-lume/
 ### Prerequisites
 
 - Deno 2.0+
-- For visual regression tests: Chrome/Chromium (installed automatically by Puppeteer)
-
-### Installation
-
-```bash
-# Clone or navigate to the directory
-cd www-communities-lume
-
-# No npm install needed - Deno handles dependencies automatically
-```
 
 ### Development
 
 ```bash
-# Build the sites
+# Build both sites
 deno task build
 
 # Start development server (port 8000)
 deno task dev
 
-# Visit http://localhost:8000/select-community to choose a community
-# Or use the shortcut: http://localhost:8000/selector
-# Debug page: http://localhost:8000/debug
+# Visit http://localhost:8000/selector to choose a community
 ```
 
-The dev server uses cookies to route requests:
-1. Visit `/select-community` or `/selector` to pick a community
+**Development workflow:**
+1. Visit `/selector` to pick a community
 2. Cookie is set for 24 hours
-3. All requests are routed to the correct community's static files
-4. Visit `/debug` to see server configuration and routing info
+3. All requests serve that community's static files
 
-### Building
+**Useful routes:**
+- `/selector` - Community selector
+- `/debug` - Server configuration and environment info
 
-```bash
-# Build both sites to _site/ directory
-deno task build
+## Site Configuration
 
-# Output structure:
-# _site/waterlilies/   - Water Lilies site
-# _site/hazelmead/     - Hazelmead site
-```
-
-## Key Technical Details
-
-### Data Management
-
-The original Jekyll `_config.yml` data was split into site-specific `_data.yaml` files:
-
-- `sites/waterlilies/_data.yaml` - Water Lilies configuration
-- `sites/hazelmead/_data.yaml` - Hazelmead configuration
-
-These files contain:
-- Site metadata (title, Google Analytics ID)
-- ESCO data (name, contact info, app URL)
+Each community has a `_data.yaml` file containing:
+- Site metadata (title, description, Google Analytics)
+- ESCO details (name, contact info, app URL)
 - SEO metadata (Open Graph, Twitter Cards)
-- Logo paths
-- Homepage settings
+- Logo paths and homepage settings
 
-### Data Cascade Solution
+Data is automatically injected into pages during the build process.
 
-**Challenge**: Lume's automatic `_data` file loading wasn't working with the multi-site structure.
+## Deployment (Deno Deploy)
 
-**Solution**: Manual data loading in `_config.ts`:
-```typescript
-// Load site data manually
-const waterliliesData = parseYaml(await Deno.readTextFile("./sites/waterlilies/_data.yaml"));
-const hazelmeadData = parseYaml(await Deno.readTextFile("./sites/hazelmead/_data.yaml"));
+**Production URL**: https://github.com/microgridfoundry/www-communities-lume-mgf
 
-// Inject data into pages based on source path
-site.process([".html", ".md"], (pages) => {
-  for (const page of pages) {
-    if (page.src.path.startsWith("/sites/waterlilies/")) {
-      Object.assign(page.data, waterliliesData);
-      page.data.url = page.data.url.replace("/sites/waterlilies", "/waterlilies");
-    } else if (page.src.path.startsWith("/sites/hazelmead/")) {
-      Object.assign(page.data, hazelmeadData);
-      page.data.url = page.data.url.replace("/sites/hazelmead", "/hazelmead");
-    }
-  }
-});
-```
+### Initial Setup
 
-### Template Engine
+1. **Connect GitHub to Deno Deploy**:
+   - Link your GitHub repository to Deno Deploy
+   - Deno Deploy auto-detects the Lume project
+   - Automatic deployments on push to `main`
 
-**Vento** (Lume's default template engine) is used instead of Nunjucks:
+2. **Configure Deno Deploy Project**:
+   - **Framework preset**: No Preset
+   - **Build command**: `deno task build`
+   - **Runtime**: Dynamic App
+   - **Entrypoint**: `server.ts`
 
-| Nunjucks | Vento |
-|----------|-------|
-| `{% if %}...{% endif %}` | `{{ if }}...{{ /if }}` |
-| `{% include "file.njk" %}` | `{{ include "file.vto" }}` |
-| `{{ var \| safe }}` | `{{ var \|> safe }}` |
-
-### URL Structure
-
-Pages are output with community prefixes:
-
-| Source | Output URL |
-|--------|------------|
-| `sites/waterlilies/index.md` | `/waterlilies/` |
-| `sites/waterlilies/support.md` | `/waterlilies/support/` |
-| `sites/hazelmead/index.md` | `/hazelmead/` |
-| `sites/hazelmead/support.md` | `/hazelmead/support/` |
-
-## Visual Regression Testing
-
-See [tests/README.md](tests/README.md) for detailed documentation.
-
-**Quick Start**:
-
-```bash
-# 1. Start Lume server
-deno task dev
-
-# 2. Capture baseline screenshots from live production sites
-deno task test:visual:update
-
-# 3. Compare Lume output against baseline
-deno task test:visual
-```
-
-Tests capture screenshots at multiple viewports (desktop, laptop, tablet, mobile) and compare pixel-by-pixel with 98% minimum similarity threshold.
-
-Baseline screenshots are fetched from:
-- https://www.waterlilies.energy
-- https://www.hazelmead.energy
-
-## Differences from Jekyll Sites
-
-### Intentional Changes
-
-1. **Support Pages**: Extended to Water Lilies (was Hazelmead-only in Jekyll)
-2. **URL Structure**: Added community prefixes (`/waterlilies/`, `/hazelmead/`)
-3. **Development Workflow**: Cookie-based community selection
-
-### Preserved Features
-
-- All original styling (SCSS)
-- All images and assets
-- SEO metadata
-- Google Analytics integration
-- Contact information
-- Community-specific branding
-
-## Performance
-
-- **Build time**: ~0.04 seconds
-- **Files generated**: 35 (8 HTML pages + assets)
-- **Dev server**: Instant hot reload
-
-## Deployment
-
-### Option 1: Deno Deploy with Domain-Based Routing (Recommended)
-
-Deploy to Deno Deploy with automatic domain-based routing:
-
-**Repository**: https://github.com/microgridfoundry/www-communities-lume-mgf
-
-**Setup**:
-
-1. **Create Deno Deploy Project**:
-   ```bash
-   # Install Deno Deploy CLI
-   deno install -A jsr:@deno/deployctl
-
-   # Authenticate
-   deployctl login
-
-   # Deploy manually (first time)
-   deployctl deploy --project=www-communities-lume-mgf server.ts
-   ```
-
-2. **Configure GitHub Actions** (Automatic Deployment):
-   - Add `DENO_DEPLOY_TOKEN` to GitHub repository secrets
-   - Get token from Deno Deploy dashboard: https://dash.deno.com/account
-   - Push to `main` branch triggers automatic deployment
-
-3. **Configure Custom Domains** in Deno Deploy dashboard:
-   - Add `www.waterlilies.energy` → routes to waterlilies site
-   - Add `www.hazelmead.energy` → routes to hazelmead site
-   - SSL certificates configured automatically
+3. **Add Custom Domains** (in Deno Deploy dashboard):
+   - `www.waterlilies.energy`
+   - `www.hazelmead.energy`
+   - SSL certificates provisioned automatically
 
 4. **Update DNS Records**:
    ```
    Type: CNAME
    Name: www
    Value: cname.deno.dev
+   TTL: Auto
    ```
 
-**How it works**:
-- Production uses `DENO_DEPLOY=true` environment variable
-- Server detects domain (`waterlilies.energy` vs `hazelmead.energy`)
-- Serves appropriate static site from `_site/` directory
-- No cookies or selection pages in production
+### How Production Routing Works
 
-**Debug Page**: Access `/debug` to view deployment info, environment variables, and routing configuration.
+The server uses domain-based routing:
 
-### Option 2: Static Hosting (Alternative)
+1. **Domain mapping**: Check if hostname is in `DOMAIN_MAP`
+   - `www.waterlilies.energy` → serves `_site/waterlilies/`
+   - `www.hazelmead.energy` → serves `_site/hazelmead/`
 
-Deploy `_site/waterlilies/` and `_site/hazelmead/` as separate sites:
+2. **Cookie fallback**: For testing on preview URLs
+   - If domain not in map, check for community cookie
+   - Redirect to `/selector` if no valid community
 
-```bash
-# Build for production
-ENV=production deno task build
+3. **Static file serving**: Once community determined, serve files from `_site/{community}/`
 
-# Deploy to static hosting
-# - _site/waterlilies/ → www.waterlilies.energy
-# - _site/hazelmead/ → www.hazelmead.energy
-```
-
-Compatible with:
-- GitHub Pages
-- Netlify
-- Vercel
-- Cloudflare Pages
-- Any static hosting
-
-### Option 3: Single Server with Path-Based Routing
-
-Use a reverse proxy (nginx, Caddy) to route by path:
-
-```nginx
-location /waterlilies/ {
-    alias /var/www/_site/waterlilies/;
-}
-
-location /hazelmead/ {
-    alias /var/www/_site/hazelmead/;
-}
-```
-
-## Tasks
-
-Available Deno tasks:
+## Available Commands
 
 ```bash
 deno task build                  # Build both sites
 deno task dev                    # Start development server
-deno task serve                  # Lume built-in server
-deno task test:visual            # Run visual regression tests
-deno task test:visual:update     # Update baseline screenshots
+deno task check                  # TypeScript type checking
+deno task validate:html          # HTML validation
 ```
 
-## Next Steps
+## Template Engine (Vento)
 
-1. **Run Visual Regression Tests**: Capture baselines and compare (`deno task test:visual:update` then `deno task test:visual`)
-2. **Review Differences**: Check generated diff images for any styling discrepancies
-3. **Iterate on Styling**: Adjust CSS/templates until >98% similarity achieved
-4. **Production Deploy**: Deploy to static hosting with proper domain routing
-5. **Content Migration**: Verify all content has been correctly migrated
+Lume uses Vento templates (`.vto` files):
 
-## Notes
+| Syntax | Example |
+|--------|---------|
+| Conditionals | `{{ if condition }}...{{ /if }}` |
+| Includes | `{{ include "component.vto" }}` |
+| Safe output | `{{ variable \|> safe }}` |
+| Variables | `{{ title }}` |
 
-- Jekyll sites remain untouched in their original directories
-- This is a proof of concept - not yet production-ready
-- Visual regression testing compares against live production sites (https://www.waterlilies.energy and https://www.hazelmead.energy)
-- Cookie-based routing is for development only - production uses separate domains
+## URL Structure
+
+Built pages use community prefixes:
+
+| Source | Output URL |
+|--------|------------|
+| `sites/waterlilies/index.md` | `/waterlilies/` |
+| `sites/waterlilies/support.md` | `/waterlilies/support/` |
+| `sites/hazelmead/index.md` | `/hazelmead/` |
+
+Production domains map to the root of each community site.
+
+## Performance
+
+- **Build time**: ~0.04 seconds
+- **Files generated**: 35 (HTML pages + assets)
+- **Dev server**: Hot reload enabled
+
+## Production Environment
+
+**Environment Detection:**
+- `DENO_DEPLOY=true` indicates production
+- Domain-based routing enabled in production
+- Cookie-based routing for development/testing
+
+**Debug page:**
+- Access `/debug` on any domain
+- Shows environment variables, domain mapping, and deployment info
 
 ## License
 

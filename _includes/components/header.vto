@@ -5,14 +5,17 @@
     <div class="row">
       <h1 class="hero-title">
         <a class="brand_link" href="/">
-          Net zero energy communities
+          {{ if esco }}{{ esco.name }} Community Energy{{ else }}Net zero energy communities{{ /if }}
         </a>
       </h1>
-      {{ if esco }}
-      <a class="btn" href="{{ esco.app_url }}">
-        Customer {{ esco.name == 'Hazelmead' ? 'Log In' : 'Sign In' }}
-      </a>
-      {{ /if }}
+      <nav class="main-nav">
+        <a href="/support/">Help &amp; Support</a>
+        {{ if esco }}
+        <a class="btn" href="{{ esco.app_url }}">
+          Customer {{ esco.name == 'Hazelmead' ? 'Log In' : 'Sign In' }}
+        </a>
+        {{ /if }}
+      </nav>
     </div>
   </div>
 </header>
