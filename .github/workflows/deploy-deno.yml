@@ -55,6 +55,7 @@ jobs:
           include: |
             _site/**
             server.ts
+            selector.html
             deno.json
           exclude: |
             tests/**
