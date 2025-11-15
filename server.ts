@@ -297,6 +297,94 @@ async function handler(req: Request): Promise<Response> {
 
   // In production, determine community from hostname
   if (IS_PRODUCTION) {
+    // Special routes available in production for testing/switching
+    if (url.pathname === "/selector" || url.pathname === "/selector/") {
+      // In production, selector shows current domain and available domains
+      const hostname = url.hostname;
+      const currentCommunity = DOMAIN_MAP[hostname] || "unknown";
+      const selectorHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Selector - Production</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #000A30 0%, #17CCB0 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 50px;
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      color: #000A30;
+      font-size: 32px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    p {
+      color: #666;
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .info {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .info strong { color: #000A30; }
+    .domains {
+      list-style: none;
+      padding: 0;
+    }
+    .domains li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f8f9fa;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌐 Production Domain Routing</h1>
+    <div class="info">
+      <p><strong>Current Domain:</strong> ${hostname}</p>
+      <p><strong>Serving:</strong> ${currentCommunity}</p>
+    </div>
+    <p>Available domains and their communities:</p>
+    <ul class="domains">
+      ${Object.entries(DOMAIN_MAP).map(([domain, comm]) =>
+        `<li><strong>${domain}</strong> → ${comm}</li>`
+      ).join("")}
+    </ul>
+    <p style="margin-top: 30px; font-size: 14px;">
+      💡 To switch communities, visit the appropriate domain above.
+      <br>In production, community selection is based on the domain you access.
+    </p>
+  </div>
+</body>
+</html>
+      `;
+      return new Response(selectorHTML, {
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
+
     const hostname = url.hostname;
     community = DOMAIN_MAP[hostname];
 
