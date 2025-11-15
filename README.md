@@ -87,15 +87,15 @@ deno task build
 deno task dev
 
 # Visit http://localhost:8000/select-community to choose a community
-# Or access directly:
-# - Water Lilies: http://localhost:8000/ (after setting cookie)
-# - Hazelmead: http://localhost:8000/ (after setting cookie)
+# Or use the shortcut: http://localhost:8000/selector
+# Debug page: http://localhost:8000/debug
 ```
 
 The dev server uses cookies to route requests:
-1. Visit `/select-community` to pick a community
+1. Visit `/select-community` or `/selector` to pick a community
 2. Cookie is set for 24 hours
 3. All requests are routed to the correct community's static files
+4. Visit `/debug` to see server configuration and routing info
 
 ### Building
 
@@ -217,7 +217,52 @@ Baseline screenshots are fetched from:
 
 ## Deployment
 
-### Option 1: Static Hosting (Recommended)
+### Option 1: Deno Deploy with Domain-Based Routing (Recommended)
+
+Deploy to Deno Deploy with automatic domain-based routing:
+
+**Repository**: https://github.com/microgridfoundry/www-communities-lume-mgf
+
+**Setup**:
+
+1. **Create Deno Deploy Project**:
+   ```bash
+   # Install Deno Deploy CLI
+   deno install -A jsr:@deno/deployctl
+
+   # Authenticate
+   deployctl login
+
+   # Deploy manually (first time)
+   deployctl deploy --project=www-communities-lume-mgf server.ts
+   ```
+
+2. **Configure GitHub Actions** (Automatic Deployment):
+   - Add `DENO_DEPLOY_TOKEN` to GitHub repository secrets
+   - Get token from Deno Deploy dashboard: https://dash.deno.com/account
+   - Push to `main` branch triggers automatic deployment
+
+3. **Configure Custom Domains** in Deno Deploy dashboard:
+   - Add `www.waterlilies.energy` → routes to waterlilies site
+   - Add `www.hazelmead.energy` → routes to hazelmead site
+   - SSL certificates configured automatically
+
+4. **Update DNS Records**:
+   ```
+   Type: CNAME
+   Name: www
+   Value: cname.deno.dev
+   ```
+
+**How it works**:
+- Production uses `DENO_DEPLOY=true` environment variable
+- Server detects domain (`waterlilies.energy` vs `hazelmead.energy`)
+- Serves appropriate static site from `_site/` directory
+- No cookies or selection pages in production
+
+**Debug Page**: Access `/debug` to view deployment info, environment variables, and routing configuration.
+
+### Option 2: Static Hosting (Alternative)
 
 Deploy `_site/waterlilies/` and `_site/hazelmead/` as separate sites:
 
@@ -237,7 +282,7 @@ Compatible with:
 - Cloudflare Pages
 - Any static hosting
 
-### Option 2: Single Server with Path-Based Routing
+### Option 3: Single Server with Path-Based Routing
 
 Use a reverse proxy (nginx, Caddy) to route by path:
 

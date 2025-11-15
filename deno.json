@@ -22,5 +22,9 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "npm:react"
+  },
+  "deploy": {
+    "project": "www-communities-lume-mgf",
+    "entrypoint": "server.ts"
   }
 }
