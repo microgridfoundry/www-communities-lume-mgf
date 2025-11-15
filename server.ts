@@ -365,12 +365,14 @@ if (IS_PRODUCTION) {
   for (const [domain, community] of Object.entries(DOMAIN_MAP)) {
     console.log(`   - ${domain} → ${community}`);
   }
+  // Deno Deploy automatically assigns the port
+  Deno.serve(handler);
 } else {
   console.log(`🚀 Development server running at http://localhost:${PORT}/`);
   console.log(`📍 Visit http://localhost:${PORT}/select-community to choose a community`);
   console.log(`\n💡 Communities available:`);
   console.log(`   - Water Lilies (waterlilies)`);
   console.log(`   - Hazelmead (hazelmead)`);
+  // Local development uses specific port
+  Deno.serve({ port: PORT }, handler);
 }
-
-Deno.serve({ port: PORT }, handler);
