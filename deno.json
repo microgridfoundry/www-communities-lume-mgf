@@ -1,7 +1,8 @@
 {
   "tasks": {
     "lume": "deno run -A https://deno.land/x/lume@v3.0.11/cli.ts",
-    "build": "deno task lume",
+    "sync:shared": "cp shared/404.vto sites/waterlilies/404.vto && cp shared/404.vto sites/hazelmead/404.vto",
+    "build": "deno task sync:shared && deno task lume",
     "build:validate": "deno task build && deno task check && deno task validate:html",
     "check": "deno check _config.ts server.ts",
     "validate:html": "deno run -A tests/validate-html.ts",

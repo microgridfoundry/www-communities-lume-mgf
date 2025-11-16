@@ -36,3 +36,6 @@ yarn-error.log*
 # Screenshot test outputs
 tests/screenshots/current/
 tests/screenshots/diff/
+
+# Shared files copied during build
+sites/*/404.vto

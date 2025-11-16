@@ -267,28 +267,52 @@ async function handler(req: Request): Promise<Response> {
     ? `_site/${community}`  // Deno Deploy: relative to project root
     : `./_site/${community}`; // Local dev: relative to current directory
 
-  try {
-    return await serveDir(req, {
-      fsRoot: siteDir,
-      quiet: true,
-      showDirListing: false,
-      showIndex: true,
-    });
-  } catch (error) {
-    // If file not found, try serving index.html (for SPA routing)
-    if (error instanceof Deno.errors.NotFound || (error as Error).message?.includes("Not Found")) {
+  const response = await serveDir(req, {
+    fsRoot: siteDir,
+    quiet: true,
+    showDirListing: false,
+    showIndex: true,
+  });
+
+  // If the response is a 404, serve the custom 404 page
+  if (response.status === 404) {
+    console.log(`[404] Received 404 for path: ${url.pathname}`);
+    console.log(`[404] Community: ${community}`);
+    console.log(`[404] Site dir: ${siteDir}`);
+
+    try {
+      // Try to read and serve the custom 404 page
+      // Lume generates 404 as 404/index.html (pretty URLs), not 404.html
+      const notFoundPath = IS_PRODUCTION
+        ? `_site/${community}/404/index.html`
+        : `./_site/${community}/404/index.html`;
+
+      console.log(`[404] Attempting to read: ${notFoundPath}`);
+
+      // Check if the file exists first
       try {
-        const indexReq = new Request(new URL("/index.html", url.origin), req);
-        return await serveDir(indexReq, {
-          fsRoot: siteDir,
-          quiet: true,
-        });
-      } catch {
-        return new Response("404 Not Found", { status: 404 });
+        const stat = await Deno.stat(notFoundPath);
+        console.log(`[404] File exists! Size: ${stat.size} bytes`);
+      } catch (statError) {
+        console.log(`[404] File does NOT exist: ${statError.message}`);
+        throw statError;
       }
+
+      const notFoundHtml = await Deno.readTextFile(notFoundPath);
+      console.log(`[404] Successfully read custom 404 page (${notFoundHtml.length} chars)`);
+
+      return new Response(notFoundHtml, {
+        status: 404,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    } catch (error) {
+      // If custom 404 page doesn't exist, return plain text
+      console.log(`[404] Error serving custom 404: ${error.message}`);
+      return new Response("404 Not Found", { status: 404 });
     }
-    return new Response("Internal Server Error", { status: 500 });
   }
+
+  return response;
 }
 
 // Log startup info
@@ -306,6 +330,30 @@ if (IS_PRODUCTION) {
   console.log(`\n💡 Communities available:`);
   console.log(`   - Water Lilies (waterlilies)`);
   console.log(`   - Hazelmead (hazelmead)`);
+
+  // Check if _site exists
+  console.log(`\n🔍 Checking for built sites...`);
+  for (const community of COMMUNITIES) {
+    try {
+      const siteDir = `./_site/${community}`;
+      const stat = await Deno.stat(siteDir);
+      if (stat.isDirectory) {
+        console.log(`   ✅ ${siteDir} exists`);
+
+        // Check for 404 page (Lume generates as 404/index.html)
+        try {
+          const notFoundStat = await Deno.stat(`${siteDir}/404/index.html`);
+          console.log(`      ✅ 404/index.html exists (${notFoundStat.size} bytes)`);
+        } catch {
+          console.log(`      ⚠️  404/index.html NOT FOUND`);
+        }
+      }
+    } catch {
+      console.log(`   ❌ ./_site/${community} does NOT exist (run 'deno task build')`);
+    }
+  }
+  console.log();
+
   // Local development with specific port
   Deno.serve({ port: PORT }, handler);
 }
