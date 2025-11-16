@@ -11,6 +11,9 @@ const site = lume({
 // Enable SCSS compilation
 site.use(sass());
 
+// In Lume v3, explicitly add SCSS files for processing
+site.add([".scss"]);
+
 // Ignore files we don't want to process
 site.ignore("README.md");
 site.ignore("server.ts");
