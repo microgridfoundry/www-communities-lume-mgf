@@ -30,8 +30,8 @@ function generateDebugPage(): string {
     "Deno Runtime": Deno.version.deno,
     "V8 Engine": Deno.version.v8,
     "TypeScript": Deno.version.typescript,
-    "Lume SSG": "v2.5.4",
-    "Deno std (YAML)": "v0.224.0",
+    "Lume SSG": "v3.0.11",
+    "@std/yaml": "^1.0.5",
     "@std/path": "^1.0.8",
     "@std/http": "^1.0.10",
   };

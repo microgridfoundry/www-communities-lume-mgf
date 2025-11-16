@@ -1,6 +1,6 @@
-import lume from "https://deno.land/x/lume@v2.5.4/mod.ts";
-import { parse as parseYaml } from "https://deno.land/std@0.224.0/yaml/mod.ts";
-import sass from "https://deno.land/x/lume@v2.5.4/plugins/sass.ts";
+import lume from "https://deno.land/x/lume@v3.0.11/mod.ts";
+import { parse as parseYaml } from "jsr:@std/yaml@^1.0.5";
+import sass from "https://deno.land/x/lume@v3.0.11/plugins/sass.ts";
 
 const site = lume({
   src: ".",
