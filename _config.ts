@@ -40,8 +40,8 @@ const waterliliesData = parseYaml(waterliliesDataFile) as Record<string, unknown
 const hazelmeadDataFile = await Deno.readTextFile("./sites/hazelmead/_data.yaml");
 const hazelmeadData = parseYaml(hazelmeadDataFile) as Record<string, unknown>;
 
-// Process markdown and HTML files
-site.process([".html", ".md"], (pages) => {
+// Process markdown, HTML, and Vento template files
+site.process([".html", ".md", ".vto"], (pages) => {
   // Add environment variable support and inject site data
   for (const page of pages) {
     page.data.env = Deno.env.get("ENV") || "development";
