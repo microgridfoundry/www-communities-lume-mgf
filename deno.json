@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "lume": "deno run -A https://deno.land/x/lume/cli.ts",
+    "lume": "deno run -A https://deno.land/x/lume@v3.0.11/cli.ts",
     "build": "deno task lume",
     "build:validate": "deno task build && deno task check && deno task validate:html",
     "check": "deno check _config.ts server.ts",
@@ -15,6 +15,7 @@
   "imports": {
     "@std/path": "jsr:@std/path@^1.0.8",
     "@std/http": "jsr:@std/http@^1.0.10",
+    "@std/yaml": "jsr:@std/yaml@^1.0.5",
     "puppeteer": "npm:puppeteer@^23.11.1",
     "pixelmatch": "npm:pixelmatch@^6.0.0",
     "pngjs": "npm:pngjs@^7.0.0"
