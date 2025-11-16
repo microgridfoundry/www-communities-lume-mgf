@@ -1,0 +1,182 @@
+---
+layout: layouts/default.vto
+title: Page Not Found - Hazelmead Community Energy
+description: The page you're looking for doesn't exist
+---
+
+<section class="section-space error-section">
+  <div class="container">
+    <div class="row">
+      <div class="error-content">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-description">
+          Looks like this page has wandered off the grid! The page you're looking for doesn't exist or may have been moved.
+        </p>
+        <div class="error-actions">
+          <a href="/hazelmead/" class="btn">Go Home</a>
+          <a href="/hazelmead/support" class="btn-secondary">Get Support</a>
+        </div>
+        <div class="error-suggestions">
+          <h3>Here's what you can do:</h3>
+          <ul>
+            <li>Check the URL for typos</li>
+            <li>Go back to our <a href="/hazelmead/">homepage</a></li>
+            <li>Visit our <a href="/hazelmead/support">support page</a></li>
+            <li>Contact us at <a href="mailto:hello@hazelmead.energy">hello@hazelmead.energy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.error-section {
+  background-image: radial-gradient(at top center, #F5E58A38 26%, #FFFFFF 58%);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.error-content {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.error-code {
+  font-size: 120px;
+  font-weight: 900;
+  color: #FFD43E;
+  line-height: 1;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 0px #17CCB0;
+}
+
+.error-title {
+  font-size: 48px;
+  color: #000A30;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.error-description {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  color: #000A30;
+  line-height: 1;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 3px;
+  background-color: transparent;
+  border: 2px solid #000A30;
+  transition: .4s ease;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  color: #FFFFFF;
+  background-color: #000A30;
+}
+
+.error-suggestions {
+  margin-top: 60px;
+  text-align: left;
+  padding: 30px;
+  background-color: #F7F0F0;
+  border-radius: 10px;
+}
+
+.error-suggestions h3 {
+  font-size: 24px;
+  color: #000A30;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.error-suggestions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.error-suggestions li {
+  font-size: 18px;
+  margin-bottom: 12px;
+  padding-left: 30px;
+  position: relative;
+  font-weight: 400;
+}
+
+.error-suggestions li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #17CCB0;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.error-suggestions a {
+  color: #17CCB0;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.error-suggestions a:hover {
+  color: #000A30;
+}
+
+@media screen and (max-width: 680px) {
+  .error-code {
+    font-size: 80px;
+    text-shadow: 2px 2px 0px #17CCB0;
+  }
+
+  .error-title {
+    font-size: 36px;
+  }
+
+  .error-description {
+    font-size: 18px;
+  }
+
+  .error-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .btn, .btn-secondary {
+    width: 100%;
+    font-size: 20px;
+  }
+
+  .error-suggestions {
+    padding: 20px;
+  }
+
+  .error-suggestions h3 {
+    font-size: 20px;
+  }
+
+  .error-suggestions li {
+    font-size: 16px;
+  }
+}
+</style>
