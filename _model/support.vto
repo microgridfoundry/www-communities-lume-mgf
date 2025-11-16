@@ -1,14 +1,19 @@
 ---
 title: "Help & Support"
 layout: layouts/support.vto
-description: "Support for vulnerable customers at Water Lilies Community Energy"
+description: "Support for vulnerable customers at {{ esco.name }} Community Energy"
 currentPage: support
 ---
+<!--
+⚠️ MODEL FILE - This is synced to sites/{community}/support.md
+Do not edit the synced copies directly - changes will be overwritten.
+Edit _model/support.md instead, then run: deno task sync:model
+-->
 
 <h2 class="heading-title">Help & Support</h2>
 
 <p class="heading-description">
-  We're here to help every resident at Water Lilies, especially if you're facing difficulties or have special needs.
+  We're here to help every resident at {{ esco.name }}, especially if you're facing difficulties or have special needs.
 </p>
 
 <h3>We can help if you're struggling</h3>
@@ -18,7 +23,7 @@ currentPage: support
 </p>
 
 <p>
-  Your energy bills at Water Lilies are already much lower than average homes thanks to our efficient buildings and renewable energy. But we know that even small bills can be challenging sometimes.
+  Your energy bills at {{ esco.name }} are already much lower than average homes thanks to our efficient buildings and renewable energy. But we know that even small bills can be challenging sometimes.
 </p>
 
 <h3>How we make things easier</h3>
@@ -35,10 +40,14 @@ currentPage: support
   <strong>If you depend on electricity for medical reasons</strong>, we'll add you to our Priority Services Register. This means you'll get advance warning of any planned power cuts, a special phone number for emergencies, and we'll work to avoid any disconnection.
 </p>
 
-<h3>The Water Lilies community is here too</h3>
+<h3>The {{ esco.name }} community is here too</h3>
 
 <p>
+{{ if esco.name == "Hazelmead" }}
+  Your neighbours and the Energy Circle are part of what makes Hazelmead special. They share energy-saving tips, help each other understand bills, and look out for one another. You're not alone here.
+{{ else }}
   Your neighbours and community are part of what makes Water Lilies special. They share energy-saving tips, help each other understand bills, and look out for one another. You're not alone here.
+{{ /if }}
 </p>
 
 <h3>Get in touch</h3>
@@ -48,16 +57,26 @@ currentPage: support
 </p>
 
 <p>
-  <strong>Phone:</strong> +44 330 828 3096<br>
-  <strong>Email:</strong> <a href="mailto:hello@waterlilies.energy">hello@waterlilies.energy</a><br>
+  <strong>Phone:</strong> {{ esco.phone }}<br>
+  <strong>Email:</strong> <a href="mailto:{{ esco.email }}">{{ esco.email }}</a><br>
   <strong>Address:</strong> Unit 21A, Easton Business Centre, Bristol, BS5 0HE
 </p>
 
 <h3>Full details</h3>
 
+{{ if esco.name == "Hazelmead" }}
 <p>
-  For a copy of our full Vulnerability Policy, please email us at <a href="mailto:hello@waterlilies.energy">hello@waterlilies.energy</a>.
+  For complete information about all our support services, you can download our full Vulnerability Policy.
 </p>
+
+<a class="btn" href="/assets/pdf/hmce-vulnerability-policy.pdf" download>
+  Download Vulnerability Policy (PDF)
+</a>
+{{ else }}
+<p>
+  For a copy of our full Vulnerability Policy, please email us at <a href="mailto:{{ esco.email }}">{{ esco.email }}</a>.
+</p>
+{{ /if }}
 
 <hr style="margin: 40px 0;">
 

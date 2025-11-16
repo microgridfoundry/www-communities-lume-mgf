@@ -1,14 +1,19 @@
 ---
 title: "Frequently Asked Questions"
 layout: layouts/support.vto
-description: "Common questions about Hazelmead Community Energy billing and services"
+description: "Common questions about {{ esco.name }} Community Energy billing and services"
 currentPage: faq
 ---
+<!--
+⚠️ MODEL FILE - This is synced to sites/{community}/support/faq.md
+Do not edit the synced copies directly - changes will be overwritten.
+Edit _model/support/faq.md instead, then run: deno task sync:model
+-->
 
 <h2 class="heading-title">Frequently Asked Questions</h2>
 
 <p class="heading-description">
-  Find answers to common questions about your Hazelmead Community Energy bills, usage, and support options.
+  Find answers to common questions about your {{ esco.name }} Community Energy bills, usage, and support options.
 </p>
 
 <h3>Where is my bill?</h3>
@@ -62,7 +67,7 @@ currentPage: faq
 </p>
 
 <ul>
-  <li>Log on to the app (<a href="https://app.hazelmead.energy">app.hazelmead.energy</a>), and scroll down within the Home screen</li>
+  <li>Log on to the app (<a href="{{ esco.app_url }}">{{ esco.app_url }}</a>), and scroll down within the Home screen</li>
   <li>Press the A or B button on your electricity meter. If your meter is not showing you an amount in £, please let us know.</li>
 </ul>
 
@@ -89,11 +94,11 @@ currentPage: faq
 <h3>What is the impact of the solar panels? How can I maximize the benefit I get from them?</h3>
 
 <p>
-  The solar panels are what enable us to provide the contractually agreed 15% reduction compared to the Ofgem price cap. This 15% discount applies to all Hazelmead energy costs, whether or not the energy has been actually supplied by solar. The solar arrays are in effect communal, feeding all the homes in Hazelmead. This arrangement means that there is nothing you can do as an individual to affect the cost benefits from the panels on your house. Because there are no financial implications you won't see anything directly about solar on your bill, but if you're interested in the data we're happy to give you information about how much energy your solar panels have generated.
+  The solar panels are what enable us to provide the contractually agreed 15% reduction compared to the Ofgem price cap. This 15% discount applies to all {{ esco.name }} energy costs, whether or not the energy has been actually supplied by solar. The solar arrays are in effect communal, feeding all the homes in {{ esco.name }}. This arrangement means that there is nothing you can do as an individual to affect the cost benefits from the panels on your house. Because there are no financial implications you won't see anything directly about solar on your bill, but if you're interested in the data we're happy to give you information about how much energy your solar panels have generated.
 </p>
 
 <hr style="margin: 40px 0;">
 
 <p style="font-style: italic;">
-  If you have questions not answered here, please contact us at <a href="mailto:hello@hazelmead.energy">hello@hazelmead.energy</a> or call +44 330 828 3096.
+  If you have questions not answered here, please contact us at <a href="mailto:{{ esco.email }}">{{ esco.email }}</a> or call {{ esco.phone }}.
 </p>
