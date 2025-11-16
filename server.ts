@@ -25,6 +25,21 @@ function generateDebugPage(): string {
     .map(([key, value]) => `<tr><td><code>${key}</code></td><td>${value}</td></tr>`)
     .join("\n");
 
+  // Runtime and component versions
+  const componentVersions = {
+    "Deno Runtime": Deno.version.deno,
+    "V8 Engine": Deno.version.v8,
+    "TypeScript": Deno.version.typescript,
+    "Lume SSG": "v2.5.4",
+    "Deno std (YAML)": "v0.224.0",
+    "@std/path": "^1.0.8",
+    "@std/http": "^1.0.10",
+  };
+
+  const componentRows = Object.entries(componentVersions)
+    .map(([key, value]) => `<tr><td>${key}</td><td><code>${value}</code></td></tr>`)
+    .join("\n");
+
   const communityRows = COMMUNITIES
     .map((c) => `<tr><td>${c}</td><td>✅ Available</td></tr>`)
     .join("\n");
@@ -131,6 +146,18 @@ function generateDebugPage(): string {
         </thead>
         <tbody>
           ${deployEnvRows}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Runtime & Component Versions</h2>
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Version</th></tr>
+        </thead>
+        <tbody>
+          ${componentRows}
         </tbody>
       </table>
     </div>
