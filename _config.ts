@@ -42,6 +42,7 @@ for (const community of COMMUNITIES) {
 for (const community of COMMUNITIES) {
   site.copy(`sites/${community}/assets/images`, `${community}/assets/images`);
   site.copy(`sites/${community}/assets/pdf`, `${community}/assets/pdf`);
+  site.copy(`sites/${community}/favicon.ico`, `${community}/favicon.ico`);
 }
 
 // Note: Model files are synced to sites/{community}/ before build via sync:model task
