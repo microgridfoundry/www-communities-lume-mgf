@@ -35,7 +35,7 @@ for (const community of COMMUNITIES) {
 
 // Copy shared assets to each community
 for (const community of COMMUNITIES) {
-  site.copy("_shared/assets/images", `${community}/assets/images`);
+  site.copy("_model/assets/images", `${community}/assets/images`);
 }
 
 // Copy site-specific assets for each community
@@ -44,9 +44,11 @@ for (const community of COMMUNITIES) {
   site.copy(`sites/${community}/assets/pdf`, `${community}/assets/pdf`);
 }
 
-// Note: Shared 404.vto is copied to sites/*/404.vto at build time
-// This is the simplest approach - maintaining a single source in shared/
-// but having physical copies for Lume to process per-community
+// Note: Model files are synced to sites/{community}/ before build via sync:model task
+// This DRY approach maintains single source files in _model/ for content that's identical
+// or nearly identical between communities (with conditionals for small differences).
+// Files synced: 404.vto, support.md, support/faq.md, support/energyadvice.md, assets/css/style.scss
+// (_model/ directory is automatically ignored by Lume)
 
 // Process markdown, HTML, and Vento template files for community-specific data injection
 site.process([".html", ".md", ".vto"], (pages) => {

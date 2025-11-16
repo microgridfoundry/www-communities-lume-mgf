@@ -22,10 +22,50 @@ deno task check
 deno task validate:html
 ```
 
+**IMPORTANT: Development workflow requires building:**
+
+This is a **static site generator**. The dev server (`deno task dev`) serves pre-built files from `_site/` - it does NOT auto-build on startup or watch for changes.
+
+**First-time setup / After pulling changes:**
+```bash
+# REQUIRED: Build static files before starting dev server
+deno task build     # Runs sync:shared + lume build
+deno task dev       # Start server on port 8000
+```
+
+**What `deno task build` does:**
+1. **sync:model**: Runs 4-step TypeScript script to merge model + overrides into sites/
+   - **Step 1**: Copy model files (_model/ → sites/)
+     - 404.vto, support.vto, support/faq.vto, support/energyadvice.vto
+     - assets/css/style.scss
+   - **Step 2**: Copy model assets (_model/assets/images/ → sites/)
+   - **Step 3**: Merge _data.yaml (model + override → sites/)
+     - Reads `_model/_data.yaml` (shared data)
+     - Reads `_overrides/{community}/_data.yaml` (community-specific data)
+     - Merges with override precedence
+   - **Step 4**: Copy override files (_overrides/ → sites/, overlaying model)
+     - index.vto (homepage)
+     - assets/ (images, PDFs)
+   - Provides progress reporting and error handling
+2. **lume**: Runs Lume static site generator
+   - Processes all `.md`, `.vto`, and `.scss` files from generated sites/
+   - Injects community data from merged `_data.yaml`
+   - Rewrites URLs from `/sites/{community}/` to `/{community}/`
+   - Compiles SCSS to CSS
+   - Outputs to `_site/{community}/`
+
+**Without building first:**
+- Server shows warnings: `⚠️ 404/index.html NOT FOUND`
+- Pages return 404 errors
+- Changes won't be visible
+- New files (like 404 pages) won't exist
+- Model files won't be synced
+
 **Development workflow:**
 1. Visit http://localhost:8000/selector to choose a community
 2. Cookie persists for 24 hours
 3. All requests serve that community's files from `_site/{community}/`
+4. **Make changes → `deno task build` → refresh browser**
 
 **Useful development routes:**
 - `/selector` - Community selection page with cache-busting headers
@@ -41,24 +81,39 @@ The build produces separate sites under community-prefixed paths:
 _site/
 ├── waterlilies/
 │   ├── index.html
+│   ├── 404/index.html
 │   ├── support/
 │   └── assets/
 └── hazelmead/
     ├── index.html
+    ├── 404/index.html
     ├── support/
     └── assets/
 ```
 
 **Key architectural decisions:**
 
-1. **Data injection (_config.ts:44-58)**: YAML data from `sites/{community}/_data.yaml` is injected into pages during build based on source path matching. The `esco` object is automatically available in all templates.
+1. **Three-directory architecture**:
+   - **_model/** (git-tracked): Shared templates identical or nearly-identical across communities
+   - **_overrides/** (git-tracked): Community-specific content (homepage, assets, data)
+   - **sites/** (gitignored): Generated directory = _model/ + _overrides/, then processed by Lume
 
-2. **URL rewriting (_config.ts:52-56)**: Source paths like `/sites/waterlilies/` are rewritten to `/waterlilies/` in the output. This happens for both HTML/MD and CSS files.
+   **⚠️ CRITICAL**: Never edit files in `sites/` - they are regenerated on every build. Edit `_model/` (shared) or `_overrides/{community}/` (community-specific) instead.
 
-3. **Asset cascading**: Shared assets from `_shared/` are copied to both communities, then site-specific assets overlay. CSS is compiled from SCSS at three levels:
-   - `_shared/assets/css/style.scss` (base styles)
-   - `sites/waterlilies/assets/css/style.scss` (inherits base)
-   - `sites/hazelmead/assets/css/style.scss` (inherits base)
+2. **Data merging**: `_data.yaml` files are merged during sync:
+   - `_model/_data.yaml` provides shared data (phone number, common fields)
+   - `_overrides/{community}/_data.yaml` provides community-specific data (name, email, URLs)
+   - Override values take precedence over model values
+   - Merged result written to `sites/{community}/_data.yaml`
+
+3. **Asset overlaying**: Assets are layered in order:
+   - First: `_model/assets/` (shared images, CSS)
+   - Then: `_overrides/{community}/assets/` (community-specific images, PDFs)
+   - Result: `sites/{community}/assets/` contains both, with overrides winning on conflicts
+
+4. **Data injection (_config.ts)**: YAML data from merged `sites/{community}/_data.yaml` is injected into pages during build based on source path matching. The `esco` object is automatically available in all templates.
+
+5. **URL rewriting (_config.ts)**: Source paths like `/sites/waterlilies/` are rewritten to `/waterlilies/` in the output. This happens for both HTML/MD and CSS files.
 
 ### Server Routing (server.ts)
 
@@ -105,13 +160,76 @@ Every page automatically has access to:
 {{ if esco }}{{ esco.name }} Community Energy{{ else }}Net zero energy communities{{ /if }}
 ```
 
+### Model Pattern for DRY Content
+
+The `_model/` directory contains files that are identical or nearly identical across communities. These files are synced to `sites/{community}/` before each build.
+
+**Two patterns supported:**
+
+**Pattern A: Identical Content (Full DRY)**
+- Files in `_model/` that use only template variables
+- Example: `404.vto`, `support/faq.md`
+- No conditionals needed - just `{{ esco.name }}`, `{{ esco.email }}`, etc.
+
+**Pattern B: Conditional Content (DRY with Variations)**
+- Files in `_model/` with conditional blocks for community-specific differences
+- Example: `support/energyadvice.md` (different councils per region)
+- Uses `{{ if esco.name == "Water Lilies" }}...{{ else }}...{{ /if }}`
+
+**Current model files:**
+```
+_model/
+├── 404.vto                      # Error page (Pattern A)
+├── support.vto                  # Vulnerability policy (Pattern B - PDF conditional)
+├── support/
+│   ├── faq.vto                 # FAQ (Pattern A)
+│   └── energyadvice.vto        # Energy advice (Pattern B - regional conditionals)
+└── assets/
+    └── css/
+        └── style.scss          # Consolidated styles (Pattern A)
+```
+
+**Note:** Model files with Vento conditionals must use `.vto` extension, not `.md`, so the template syntax is processed before markdown rendering.
+
+**Warning headers:**
+All model files include warning comments:
+```vto
+<!--
+⚠️ MODEL FILE - This is synced to sites/{community}/
+Do not edit the synced copies directly - changes will be overwritten.
+Edit _model/{path} instead, then run: deno task sync:model
+-->
+```
+
+**Adding new model files:**
+1. Create file in `_model/` with template variables and conditionals
+2. Add file path to `MODEL_FILES` array in `scripts/sync-model.ts`
+3. Run `deno task build` to test (sites/ is fully gitignored)
+4. Commit model source and updated sync script
+
+**Forking a model file:**
+If a community needs a unique version:
+1. Remove file from `MODEL_FILES` in `scripts/sync-model.ts`
+2. Copy model to both `_overrides/{community}/` locations
+3. Edit each community version independently in _overrides/
+4. Commit both versions in _overrides/
+5. Run `deno task build` - override files overlay model during Step 4
+
 ## Content Management
 
 ### Adding New Pages
 
-1. Create in `sites/{community}/newpage.md` or `.vto`
+**Shared page (identical or nearly-identical across communities):**
+1. Create in `_model/newpage.vto` with template variables/conditionals
+2. Add to `MODEL_FILES` array in `scripts/sync-model.ts`
+3. Run `deno task build` to test
+4. Build automatically creates `/newpage/` route for both communities
+
+**Community-specific page:**
+1. Create in `_overrides/{community}/newpage.md` or `.vto`
 2. Add frontmatter with layout and currentPage (if support section)
-3. Build automatically creates `/newpage/` route
+3. Run `deno task build` to test
+4. Build automatically creates `/newpage/` route for that community only
 
 **Support pages use special layout:**
 ```yaml
@@ -133,22 +251,25 @@ The support nav component (`_includes/components/support-nav.vto`) expects `curr
 
 ## Styling Architecture
 
-**Three-tier SCSS inheritance:**
+**Single consolidated SCSS file:**
 
-1. **Base styles** (`_shared/assets/css/style.scss`):
-   - Global resets, typography, layout
-   - Shared components (header, footer, buttons)
-   - Support section base styles
-
-2. **Community overrides** (`sites/{community}/assets/css/style.scss`):
-   - Import base with `@import "path/to/_shared/assets/css/style.scss"`
-   - Override variables or add community-specific styles
-   - Currently identical for both communities
+- **Model**: `_model/assets/css/style.scss` (488 lines)
+  - Consolidated styles for all components
+  - Global resets, typography, layout
+  - Shared components (header, footer, buttons)
+  - Support section styles
+  - Synced to both communities during build
 
 **Important CSS patterns:**
 - `.support-section` scopes all support page styles
 - `.support-nav` provides tabbed navigation with active states
 - Responsive breakpoints at 1560px, 1199px, 991px, 680px, 425px
+
+**Adding community-specific styles:**
+If a community needs custom CSS:
+1. Create `_overrides/{community}/assets/css/custom.scss`
+2. Add to page frontmatter: `extra_css: ["/assets/css/custom.css"]`
+3. Run `deno task build` - override assets overlay model
 
 ## Deployment (Deno Deploy)
 
@@ -177,12 +298,16 @@ const DOMAIN_MAP: Record<string, string> = {
 
 ### Adding a New Community
 
-1. Create `sites/newcommunity/_data.yaml` with all required fields
-2. Add to `COMMUNITIES` array in `server.ts`
-3. Add domain mappings to `DOMAIN_MAP`
-4. Create `sites/newcommunity/assets/css/style.scss` importing base
-5. Copy assets to `sites/newcommunity/assets/`
-6. Build and verify at `/selector`
+1. Create `_overrides/newcommunity/_data.yaml` with all required fields:
+   - name, email, app_url, sign_in_label, description, domain, seo (og:*, twitter:*)
+2. Create `_overrides/newcommunity/index.vto` (homepage)
+3. Copy assets to `_overrides/newcommunity/assets/` (images, PDFs)
+4. Add to `COMMUNITIES` array in:
+   - `server.ts` (line ~6)
+   - `scripts/sync-model.ts` (line ~5)
+5. Add domain mappings to `DOMAIN_MAP` in `server.ts`
+6. Run `deno task build` - sync will generate sites/newcommunity/
+7. Verify at `/selector`
 
 ### Modifying Shared Components
 

@@ -1,0 +1,15 @@
+⚠️ DO NOT EDIT FILES IN THIS DIRECTORY ⚠️
+
+This entire directory is GENERATED during the build process.
+
+Build process:
+1. sync:model copies _model/ → sites/{community}/
+2. sync:model copies _overrides/{community}/ → sites/{community}/ (overlaying model)
+3. lume builds sites/ → _site/
+
+To make changes:
+- Shared content → Edit files in _model/
+- Community-specific content → Edit files in _overrides/{community}/
+- Then run: deno task build
+
+All files in sites/ are gitignored and will be overwritten on next build.

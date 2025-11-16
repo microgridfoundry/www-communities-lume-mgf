@@ -1,9 +1,14 @@
 ---
 title: "Support to Pay Energy Bills"
 layout: layouts/support.vto
-description: "Organisations and resources to help with energy bills at Water Lilies"
+description: "Organisations and resources to help with energy bills at {{ esco.name }}"
 currentPage: energyadvice
 ---
+<!--
+⚠️ MODEL FILE - This is synced to sites/{community}/support/energyadvice.md
+Do not edit the synced copies directly - changes will be overwritten.
+Edit _model/support/energyadvice.md instead, then run: deno task sync:model
+-->
 
 <h2 class="heading-title">Support to Pay Energy Bills</h2>
 
@@ -13,20 +18,34 @@ currentPage: energyadvice
 
 <h3>Household Support Fund</h3>
 <p>
-  Government fund administered by Bristol City Council. You need to be referred by a practitioner (e.g. a social worker) or by an advice service such as Citizens Advice.
+  Government fund administered by {{ if esco.name == "Water Lilies" }}Bristol City Council{{ else }}Dorset Council{{ /if }}. You need to be referred by a practitioner (e.g. a social worker) or by an advice service such as Citizens Advice.
 </p>
 <p>
+{{ if esco.name == "Water Lilies" }}
   <strong>Website:</strong> <a href="https://www.bristol.gov.uk/residents/benefits/help-with-one-off-payments-and-grants" target="_blank">Bristol City Council Support</a><br>
   <strong>Phone:</strong> 0117 922 2000
+{{ else }}
+  <strong>Email:</strong> <a href="mailto:customerservices@dorsetcouncil.gov.uk">customerservices@dorsetcouncil.gov.uk</a><br>
+  <strong>Phone:</strong> 01305 221000
+{{ /if }}
 </p>
 
-<h3>Citizens Advice Bristol</h3>
+<h3>Citizens Advice{{ if esco.name == "Water Lilies" }} Bristol{{ /if }}</h3>
 <p>
+{{ if esco.name == "Water Lilies" }}
   Contact via website for advice on energy bills, benefits, and debt management.
+{{ else }}
+  Contact via website, or visit local office 45 South Street, Bridport, DT6 3NY (see website for opening hours).
+{{ /if }}
 </p>
 <p>
+{{ if esco.name == "Water Lilies" }}
   <strong>Website:</strong> <a href="https://www.citizensadvice.org.uk/local/bristol" target="_blank">www.citizensadvice.org.uk/local/bristol</a><br>
   <strong>Phone:</strong> 0808 278 7900
+{{ else }}
+  <strong>Website:</strong> <a href="http://www.bridportca.org.uk" target="_blank">www.bridportca.org.uk</a><br>
+  <strong>Phone:</strong> 0800 144 8848
+{{ /if }}
 </p>
 
 <h3>Trussell Trust 'Help through Hardship' Helpline</h3>
@@ -44,7 +63,7 @@ currentPage: energyadvice
 </p>
 <p>
   <strong>National Debtline:</strong> 0808 808 4000<br>
-  <strong>Citizens Advice:</strong> 0808 278 7900 (and see above)<br>
+  <strong>Citizens Advice:</strong> {{ if esco.name == "Water Lilies" }}0808 278 7900{{ else }}0800 144 8848{{ /if }} (and see above)<br>
   <strong>Website:</strong> <a href="http://britishgasenergytrust.org.uk/who-can-apply" target="_blank">britishgasenergytrust.org.uk/who-can-apply</a>
 </p>
 
@@ -78,5 +97,5 @@ currentPage: energyadvice
 <hr style="margin: 40px 0;">
 
 <p style="font-style: italic;">
-  If you need help accessing any of these services, please contact us at <a href="mailto:hello@waterlilies.energy">hello@waterlilies.energy</a> or call +44 330 828 3096.
+  If you need help accessing any of these services, please contact us at <a href="mailto:{{ esco.email }}">{{ esco.email }}</a> or call {{ esco.phone }}.
 </p>

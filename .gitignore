@@ -37,5 +37,12 @@ yarn-error.log*
 tests/screenshots/current/
 tests/screenshots/diff/
 
-# Shared files copied during build
-sites/*/404.vto
+# Entire sites/ directory is generated (model + overrides → sites → build)
+# Do not edit files in sites/ - changes will be overwritten
+# Edit files in _model/ (shared) or _overrides/{community}/ (community-specific) instead
+sites/
+
+# Keep directory structure visible
+!sites/.gitkeep
+!sites/waterlilies/.gitkeep
+!sites/hazelmead/.gitkeep

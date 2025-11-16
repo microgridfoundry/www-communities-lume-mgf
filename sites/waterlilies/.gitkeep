@@ -1,0 +1,13 @@
+⚠️ GENERATED DIRECTORY - DO NOT EDIT ⚠️
+
+This directory contains the merged result of:
+  _model/ (shared templates)
+  + _overrides/waterlilies/ (community-specific files)
+  = sites/waterlilies/ (this directory)
+
+To edit Water Lilies content:
+- Shared pages (404, support, FAQ) → _model/
+- Homepage, assets, data → _overrides/waterlilies/
+- Then run: deno task build
+
+All files here are gitignored and regenerated on each build.

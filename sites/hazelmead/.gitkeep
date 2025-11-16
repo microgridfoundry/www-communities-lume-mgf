@@ -1,0 +1,13 @@
+⚠️ GENERATED DIRECTORY - DO NOT EDIT ⚠️
+
+This directory contains the merged result of:
+  _model/ (shared templates)
+  + _overrides/hazelmead/ (community-specific files)
+  = sites/hazelmead/ (this directory)
+
+To edit Hazelmead content:
+- Shared pages (404, support, FAQ) → _model/
+- Homepage, assets, data → _overrides/hazelmead/
+- Then run: deno task build
+
+All files here are gitignored and regenerated on each build.
