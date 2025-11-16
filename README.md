@@ -35,29 +35,46 @@ www-communities-lume/
 │       ├── header.vto        # Site header
 │       ├── footer.vto        # Site footer
 │       └── support-nav.vto   # Support section nav
-├── _shared/                  # Shared assets
+├── _model/                   # 📝 EDIT HERE: Shared templates (DRY)
+│   ├── _data.yaml            # Shared data (phone, common fields)
+│   ├── 404.vto               # Error page
+│   ├── support.vto           # Vulnerability policy
+│   ├── support/
+│   │   ├── faq.vto           # FAQ
+│   │   └── energyadvice.vto  # Energy advice
 │   └── assets/
-│       ├── css/style.scss    # Base SCSS styles
+│       ├── css/style.scss    # Consolidated styles (488 lines)
 │       └── images/           # Shared images
-├── sites/                    # Community-specific content
+├── _overrides/               # 📝 EDIT HERE: Community-specific content
 │   ├── waterlilies/
-│   │   ├── _data.yaml        # Site config & data
-│   │   ├── index.md          # Homepage
-│   │   ├── support/          # Support pages
-│   │   │   ├── faq.md
-│   │   │   └── energyadvice.md
+│   │   ├── _data.yaml        # Site config (name, email, URLs)
+│   │   ├── index.vto         # Homepage
 │   │   └── assets/           # Site-specific assets
-│   │       ├── css/style.scss
 │   │       ├── images/
 │   │       └── pdf/
 │   └── hazelmead/
 │       └── (same structure)
+├── sites/                    # ⚠️ GENERATED - DO NOT EDIT
+│   ├── .gitkeep              # (entire directory gitignored)
+│   ├── waterlilies/          # = _model/ + _overrides/waterlilies/
+│   │   └── .gitkeep
+│   └── hazelmead/            # = _model/ + _overrides/hazelmead/
+│       └── .gitkeep
+├── scripts/
+│   └── sync-model.ts         # 4-step sync: model + overrides → sites
 ├── server.ts                 # Deno server with routing
 ├── selector.html             # Community selector page
 └── _site/                    # Generated output (gitignored)
     ├── waterlilies/
     └── hazelmead/
 ```
+
+**Three-directory architecture:**
+- **_model/**: Shared templates identical or nearly-identical across communities (git-tracked)
+- **_overrides/**: Community-specific content (homepage, assets, data) (git-tracked)
+- **sites/**: Generated directory = _model/ + _overrides/, processed by Lume (gitignored)
+
+**⚠️ CRITICAL**: Never edit files in `sites/` - they are regenerated on every build. Edit `_model/` (shared) or `_overrides/{community}/` (community-specific) instead.
 
 ## Available Commands
 
@@ -71,10 +88,12 @@ deno task build:validate         # Build + type check + HTML validation
 
 ## Development Workflow
 
-1. **Select Community**: Visit http://localhost:8000/selector
-2. **Cookie Persists**: Community selection saved for 24 hours
-3. **Make Changes**: Edit content in `sites/{community}/`
-4. **Hot Reload**: Changes automatically rebuild and refresh
+1. **Build First**: Run `deno task build` (required - this is a static site generator)
+2. **Start Server**: Run `deno task dev` (serves pre-built files from `_site/`)
+3. **Select Community**: Visit http://localhost:8000/selector
+4. **Cookie Persists**: Community selection saved for 24 hours
+5. **Make Changes**: Edit content in `_model/` (shared) or `_overrides/{community}/` (community-specific)
+6. **Rebuild**: Run `deno task build` to see changes (no hot reload)
 
 **Useful development routes:**
 - `/selector` - Community selection (with cache-busting headers)

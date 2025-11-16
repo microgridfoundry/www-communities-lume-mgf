@@ -37,15 +37,12 @@ yarn-error.log*
 tests/screenshots/current/
 tests/screenshots/diff/
 
-# Model files synced to communities during build
-# Do not edit these - they are generated from _model/
-sites/waterlilies/404.vto
-sites/waterlilies/support.vto
-sites/waterlilies/support/faq.vto
-sites/waterlilies/support/energyadvice.vto
-sites/waterlilies/assets/css/style.scss
-sites/hazelmead/404.vto
-sites/hazelmead/support.vto
-sites/hazelmead/support/faq.vto
-sites/hazelmead/support/energyadvice.vto
-sites/hazelmead/assets/css/style.scss
+# Entire sites/ directory is generated (model + overrides → sites → build)
+# Do not edit files in sites/ - changes will be overwritten
+# Edit files in _model/ (shared) or _overrides/{community}/ (community-specific) instead
+sites/
+
+# Keep directory structure visible
+!sites/.gitkeep
+!sites/waterlilies/.gitkeep
+!sites/hazelmead/.gitkeep
