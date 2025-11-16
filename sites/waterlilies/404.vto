@@ -1,6 +1,6 @@
 ---
 layout: layouts/default.vto
-title: Page Not Found - Water Lilies Community Energy
+title: Page Not Found - {{ esco.name }} Community Energy
 description: The page you're looking for doesn't exist
 ---
 
@@ -14,16 +14,16 @@ description: The page you're looking for doesn't exist
           Looks like this page has wandered off the grid! The page you're looking for doesn't exist or may have been moved.
         </p>
         <div class="error-actions">
-          <a href="/waterlilies/" class="btn">Go Home</a>
-          <a href="/waterlilies/support" class="btn-secondary">Get Support</a>
+          <a href="/" class="btn">Go Home</a>
+          <a href="/support" class="btn-secondary">Get Support</a>
         </div>
         <div class="error-suggestions">
           <h3>Here's what you can do:</h3>
           <ul>
             <li>Check the URL for typos</li>
-            <li>Go back to our <a href="/waterlilies/">homepage</a></li>
-            <li>Visit our <a href="/waterlilies/support">support page</a></li>
-            <li>Contact us at <a href="mailto:hello@waterlilies.energy">hello@waterlilies.energy</a></li>
+            <li>Go back to our <a href="/">homepage</a></li>
+            <li>Visit our <a href="/support">support page</a></li>
+            <li>Contact us at <a href="mailto:{{ esco.email }}">{{ esco.email }}</a></li>
           </ul>
         </div>
       </div>

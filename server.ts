@@ -281,10 +281,11 @@ async function handler(req: Request): Promise<Response> {
     console.log(`[404] Site dir: ${siteDir}`);
 
     try {
-      // Try to read and serve the custom 404.html page
+      // Try to read and serve the custom 404 page
+      // Lume generates 404 as 404/index.html (pretty URLs), not 404.html
       const notFoundPath = IS_PRODUCTION
-        ? `_site/${community}/404.html`
-        : `./_site/${community}/404.html`;
+        ? `_site/${community}/404/index.html`
+        : `./_site/${community}/404/index.html`;
 
       console.log(`[404] Attempting to read: ${notFoundPath}`);
 
@@ -339,12 +340,12 @@ if (IS_PRODUCTION) {
       if (stat.isDirectory) {
         console.log(`   ✅ ${siteDir} exists`);
 
-        // Check for 404.html
+        // Check for 404 page (Lume generates as 404/index.html)
         try {
-          const notFoundStat = await Deno.stat(`${siteDir}/404.html`);
-          console.log(`      ✅ 404.html exists (${notFoundStat.size} bytes)`);
+          const notFoundStat = await Deno.stat(`${siteDir}/404/index.html`);
+          console.log(`      ✅ 404/index.html exists (${notFoundStat.size} bytes)`);
         } catch {
-          console.log(`      ⚠️  404.html NOT FOUND`);
+          console.log(`      ⚠️  404/index.html NOT FOUND`);
         }
       }
     } catch {

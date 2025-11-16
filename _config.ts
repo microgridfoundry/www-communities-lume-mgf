@@ -23,36 +23,43 @@ site.ignore("lume-multi-site-implementation-plan.md");
 site.ignore("tests");
 site.ignore("node_modules");
 
-// Copy shared images to each site output (CSS will be processed by SCSS plugin)
-site.copy("_shared/assets/images", "waterlilies/assets/images");
-site.copy("_shared/assets/images", "hazelmead/assets/images");
+// Define communities
+const COMMUNITIES = ["waterlilies", "hazelmead"];
 
-// Copy site-specific assets (excluding css which will be processed)
-site.copy("sites/waterlilies/assets/images", "waterlilies/assets/images");
-site.copy("sites/waterlilies/assets/pdf", "waterlilies/assets/pdf");
-site.copy("sites/hazelmead/assets/images", "hazelmead/assets/images");
-site.copy("sites/hazelmead/assets/pdf", "hazelmead/assets/pdf");
+// Load site data for each community
+const communityData: Record<string, Record<string, unknown>> = {};
+for (const community of COMMUNITIES) {
+  const dataFile = await Deno.readTextFile(`./sites/${community}/_data.yaml`);
+  communityData[community] = parseYaml(dataFile) as Record<string, unknown>;
+}
 
-// Load site data manually
-const waterliliesDataFile = await Deno.readTextFile("./sites/waterlilies/_data.yaml");
-const waterliliesData = parseYaml(waterliliesDataFile) as Record<string, unknown>;
+// Copy shared assets to each community
+for (const community of COMMUNITIES) {
+  site.copy("_shared/assets/images", `${community}/assets/images`);
+}
 
-const hazelmeadDataFile = await Deno.readTextFile("./sites/hazelmead/_data.yaml");
-const hazelmeadData = parseYaml(hazelmeadDataFile) as Record<string, unknown>;
+// Copy site-specific assets for each community
+for (const community of COMMUNITIES) {
+  site.copy(`sites/${community}/assets/images`, `${community}/assets/images`);
+  site.copy(`sites/${community}/assets/pdf`, `${community}/assets/pdf`);
+}
 
-// Process markdown, HTML, and Vento template files
+// Note: Shared 404.vto is copied to sites/*/404.vto at build time
+// This is the simplest approach - maintaining a single source in shared/
+// but having physical copies for Lume to process per-community
+
+// Process markdown, HTML, and Vento template files for community-specific data injection
 site.process([".html", ".md", ".vto"], (pages) => {
-  // Add environment variable support and inject site data
   for (const page of pages) {
     page.data.env = Deno.env.get("ENV") || "development";
 
-    // Inject site-specific data based on source path
-    if (page.src.path.startsWith("/sites/waterlilies/")) {
-      Object.assign(page.data, waterliliesData);
-      page.data.url = page.data.url.replace("/sites/waterlilies", "/waterlilies");
-    } else if (page.src.path.startsWith("/sites/hazelmead/")) {
-      Object.assign(page.data, hazelmeadData);
-      page.data.url = page.data.url.replace("/sites/hazelmead", "/hazelmead");
+    // Check if page is from a specific community site and inject data
+    for (const community of COMMUNITIES) {
+      if (page.src.path.startsWith(`/sites/${community}/`)) {
+        Object.assign(page.data, communityData[community]);
+        page.data.url = page.data.url.replace(`/sites/${community}`, `/${community}`);
+        break;
+      }
     }
   }
 });
@@ -60,10 +67,11 @@ site.process([".html", ".md", ".vto"], (pages) => {
 // Process CSS files to fix URL paths
 site.process([".css"], (pages) => {
   for (const page of pages) {
-    if (page.data.url.startsWith("/sites/waterlilies/")) {
-      page.data.url = page.data.url.replace("/sites/waterlilies", "/waterlilies");
-    } else if (page.data.url.startsWith("/sites/hazelmead/")) {
-      page.data.url = page.data.url.replace("/sites/hazelmead", "/hazelmead");
+    for (const community of COMMUNITIES) {
+      if (page.data.url.startsWith(`/sites/${community}/`)) {
+        page.data.url = page.data.url.replace(`/sites/${community}`, `/${community}`);
+        break;
+      }
     }
   }
 });
