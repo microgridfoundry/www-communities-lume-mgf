@@ -116,6 +116,15 @@ for (const community of COMMUNITIES) {
       successCount++;
     }
 
+    // Copy favicon.ico if exists (root-level override)
+    const faviconSrc = `${overridePath}/favicon.ico`;
+    if (await exists(faviconSrc)) {
+      const faviconDest = `sites/${community}/favicon.ico`;
+      await copy(faviconSrc, faviconDest, { overwrite: true });
+      console.log(`   ✓ favicon.ico`);
+      successCount++;
+    }
+
     // Copy assets (images, pdf) - overlay on model assets
     const assetsSrc = `${overridePath}/assets`;
     if (await exists(assetsSrc)) {
