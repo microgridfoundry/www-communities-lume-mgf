@@ -267,28 +267,33 @@ async function handler(req: Request): Promise<Response> {
     ? `_site/${community}`  // Deno Deploy: relative to project root
     : `./_site/${community}`; // Local dev: relative to current directory
 
-  try {
-    return await serveDir(req, {
-      fsRoot: siteDir,
-      quiet: true,
-      showDirListing: false,
-      showIndex: true,
-    });
-  } catch (error) {
-    // If file not found, try serving index.html (for SPA routing)
-    if (error instanceof Deno.errors.NotFound || (error as Error).message?.includes("Not Found")) {
-      try {
-        const indexReq = new Request(new URL("/index.html", url.origin), req);
-        return await serveDir(indexReq, {
-          fsRoot: siteDir,
-          quiet: true,
-        });
-      } catch {
-        return new Response("404 Not Found", { status: 404 });
-      }
+  const response = await serveDir(req, {
+    fsRoot: siteDir,
+    quiet: true,
+    showDirListing: false,
+    showIndex: true,
+  });
+
+  // If the response is a 404, serve the custom 404 page
+  if (response.status === 404) {
+    try {
+      // Try to read and serve the custom 404.html page
+      const notFoundPath = IS_PRODUCTION
+        ? `_site/${community}/404.html`
+        : `./_site/${community}/404.html`;
+
+      const notFoundHtml = await Deno.readTextFile(notFoundPath);
+      return new Response(notFoundHtml, {
+        status: 404,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    } catch {
+      // If custom 404 page doesn't exist, return plain text
+      return new Response("404 Not Found", { status: 404 });
     }
-    return new Response("Internal Server Error", { status: 500 });
   }
+
+  return response;
 }
 
 // Log startup info
