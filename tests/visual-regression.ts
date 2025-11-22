@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run -A
 
-import puppeteer from "puppeteer";
-import pixelmatch from "pixelmatch";
+import puppeteer from "npm:puppeteer@^23.11.1";
+import pixelmatch from "npm:pixelmatch@^6.0.0";
 import { decode, encode } from "https://deno.land/x/pngs@0.1.1/mod.ts";
 import { join } from "@std/path";
 
