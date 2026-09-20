@@ -99,14 +99,19 @@ async function captureScreenshot(
   viewport: { width: number; height: number },
   setCookie?: { name: string; value: string },
 ): Promise<Buffer> {
-  const page = await browser.newPage();
+  // One isolated context per capture: pages in the shared default context
+  // share a cookie jar, and the community cookie was leaking between test
+  // cases so "hazelmead" captures rendered the Water Lilies site.
+  const context = await browser.createBrowserContext();
+  const page = await context.newPage();
   await page.setViewport(viewport);
 
   if (setCookie) {
-    await page.setCookie({
+    await context.setCookie({
       name: setCookie.name,
       value: setCookie.value,
-      url: LUME_BASE_URL,
+      domain: new URL(LUME_BASE_URL).hostname,
+      path: "/",
     });
   }
 
@@ -116,7 +121,7 @@ async function captureScreenshot(
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const screenshot = await page.screenshot({ fullPage: true });
-  await page.close();
+  await context.close();
 
   return screenshot as Buffer;
 }
@@ -176,7 +181,10 @@ function compareImages(img1: Uint8Array, img2: Uint8Array): number {
 
 async function checkUrl(url: string): Promise<boolean> {
   try {
-    const response = await fetch(url, { method: "HEAD" });
+    // GET, not HEAD: Deno Deploy's static file server answers 405 to HEAD on
+    // sub-pages (only "/" accepts it), which made every support page look 404.
+    const response = await fetch(url, { method: "GET" });
+    await response.body?.cancel();
     return response.status === 200;
   } catch {
     return false;
