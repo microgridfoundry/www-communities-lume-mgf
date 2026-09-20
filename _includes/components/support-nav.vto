@@ -2,4 +2,7 @@
   <a href="/support/"{{ if currentPage == "support" }} class="active"{{ /if }}>Vulnerability Policy</a>
   <a href="/support/faq/"{{ if currentPage == "faq" }} class="active"{{ /if }}>FAQ</a>
   <a href="/support/energyadvice/"{{ if currentPage == "energyadvice" }} class="active"{{ /if }}>Energy Advice</a>
+  {{ if esco.name == "Hazelmead" }}
+  <a href="/support/ev-charging/"{{ if currentPage == "evcharging" }} class="active"{{ /if }}>Charging Electric Vehicles</a>
+  {{ /if }}
 </div>

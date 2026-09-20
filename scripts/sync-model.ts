@@ -1,5 +1,5 @@
-import { copy, ensureDir, exists } from "jsr:@std/fs";
-import { join, dirname } from "jsr:@std/path";
+import { copy, ensureDir, exists, walk } from "jsr:@std/fs";
+import { join, dirname, relative } from "jsr:@std/path";
 import { parse as parseYaml, stringify as stringifyYaml } from "jsr:@std/yaml";
 
 const COMMUNITIES = ["waterlilies", "hazelmead"];
@@ -122,6 +122,23 @@ for (const community of COMMUNITIES) {
       const faviconDest = `sites/${community}/favicon.ico`;
       await copy(faviconSrc, faviconDest, { overwrite: true });
       console.log(`   ✓ favicon.ico`);
+      successCount++;
+    }
+
+    // Copy community-specific pages (any .vto/.md outside assets/, e.g.
+    // support/ev-charging.vto) - overlay on model pages. This is what makes
+    // the "Community-specific page" recipe in CLAUDE.md actually work.
+    for await (const entry of walk(overridePath, {
+      exts: [".vto", ".md"],
+      skip: [/\/assets\//],
+    })) {
+      if (!entry.isFile) continue;
+      const rel = relative(overridePath, entry.path);
+      if (rel === "index.vto") continue; // already handled above
+      const dest = join("sites", community, rel);
+      await ensureDir(dirname(dest));
+      await copy(entry.path, dest, { overwrite: true });
+      console.log(`   ✓ ${rel}`);
       successCount++;
     }
 

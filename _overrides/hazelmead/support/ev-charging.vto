@@ -1,0 +1,101 @@
+---
+title: "Charging Electric Vehicles"
+layout: layouts/support.vto
+description: "How to get set up and charge your electric vehicle at Hazelmead Community Energy"
+currentPage: evcharging
+---
+<!--
+Hazelmead-only page: lives in _overrides/hazelmead/support/ and is overlaid
+onto sites/hazelmead/ by scripts/sync-model.ts (Step 4). Water Lilies does
+not get this page or its nav tab.
+
+This page is public. Never put charger serial numbers, PIN codes, Easee site
+keys or invitation links here - those go to residents by email only.
+-->
+
+<h2 class="heading-title">Charging Electric Vehicles</h2>
+
+<p class="heading-description">
+  {{ esco.name }} has shared electric vehicle chargers for residents, powered by the community microgrid. Here's how to get set up and start charging.
+</p>
+
+<h3>Where the chargers are</h3>
+
+<p>
+  The chargers are on the charging posts at the top of the site, beside the community battery. Ten posts are fitted with charge plates, and two currently have live Easee chargers installed. More chargers can be added to the existing posts as demand grows.
+</p>
+
+<p>
+  Each charger has a standard <strong>Type 2 socket</strong>, so it works with any electric vehicle using your own Type 2 charging cable. Chargers are rated up to 22&nbsp;kW, but most cars charge at around 7&nbsp;kW (up to 11&nbsp;kW for some), depending on the car and the cable. Please don't use adaptors on the charger or the cable.
+</p>
+
+<h3>Getting set up</h3>
+
+<p>
+  Charging is controlled through the Easee app, so you need to be added as a user before you can charge. It takes a few minutes.
+</p>
+
+<ol>
+  <li>
+    <strong>Email us</strong> at <a href="mailto:{{ esco.email }}">{{ esco.email }}</a> with your name and house number, and ask to be set up for EV charging. We'll send you an <strong>Easee invitation</strong> by email.
+  </li>
+  <li>
+    <strong>Install the Easee app</strong> on your phone (search for "Easee" in the App Store or Google Play) and create an Easee account using the same email address we sent the invitation to.
+  </li>
+  <li>
+    <strong>Accept the invitation</strong> using the link in our email. The {{ esco.name }} chargers will then appear in your app.
+  </li>
+</ol>
+
+<p>
+  If you already have an Easee account from elsewhere, you can accept the invitation with that account instead of creating a new one. If the chargers don't appear after accepting, let us know and we'll check your access.
+</p>
+
+<h3>Charging your car</h3>
+
+<ol>
+  <li>Park at a charging post with a free charger and plug your cable into the car and the charger's Type 2 socket.</li>
+  <li>Open the Easee app, select the charger you're plugged into, and <strong>tap the charge button</strong> to start.</li>
+  <li>The light stripe on the charger shows what it's doing: it'll change once charging has started. You can watch progress and stop the session from the app.</li>
+  <li>When you're done, stop the session in the app and unplug. Please move your car once it's charged so the charger is free for your neighbours.</li>
+</ol>
+
+<p>
+  You can also set a charging schedule in the app if you'd rather charge overnight.
+</p>
+
+<h3>If something isn't working</h3>
+
+<p>
+  <strong>Charger doesn't appear in the app?</strong> Make sure you've accepted the invitation with the account you're logged in with, then email us.
+</p>
+
+<p>
+  <strong>Car won't start charging?</strong> Check the cable is fully pushed in at both ends, then try stopping and restarting the session in the app. Some cars pause charging themselves when the battery is nearly full.
+</p>
+
+<p>
+  <strong>Charging seems slow?</strong> 6–8&nbsp;kW is normal for most cars. The rate depends on your car and cable, and the chargers share the site's supply with everyone's homes.
+</p>
+
+<p>
+  <strong>Anything else?</strong> Email <a href="mailto:{{ esco.email }}">{{ esco.email }}</a> with the post number and roughly when the problem happened, and we'll look at the charger remotely.
+</p>
+
+<h3>Costs and billing</h3>
+
+<p>
+  Details of EV charging tariffs and how charging is billed will be published here. We'll write to everyone set up for charging before any changes take effect.
+</p>
+
+<h3>Adding more chargers</h3>
+
+<p>
+  Additional chargers can be fitted to the existing charging posts. If you'd like to see more chargers at {{ esco.name }}, please raise it with the community &mdash; and if you're getting an electric vehicle, let us know so we can plan capacity.
+</p>
+
+<hr style="margin: 40px 0;">
+
+<p style="font-style: italic;">
+  Questions about EV charging? Email <a href="mailto:{{ esco.email }}">{{ esco.email }}</a> or call {{ esco.phone }}.
+</p>
