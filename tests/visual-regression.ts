@@ -65,6 +65,12 @@ const TEST_CASES = [
     liveUrl: LIVE_HAZELMEAD_URL + "/support/energyadvice/",
     community: "hazelmead",
   },
+  {
+    name: "hazelmead-evcharging",
+    lumePath: "/support/ev-charging/",
+    liveUrl: LIVE_HAZELMEAD_URL + "/support/ev-charging/",
+    community: "hazelmead",
+  },
 ];
 
 // Viewport sizes to test

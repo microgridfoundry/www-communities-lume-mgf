@@ -226,10 +226,11 @@ If a community needs a unique version:
 4. Build automatically creates `/newpage/` route for both communities
 
 **Community-specific page:**
-1. Create in `_overrides/{community}/newpage.md` or `.vto`
+1. Create in `_overrides/{community}/newpage.md` or `.vto` (subfolders work, e.g. `support/ev-charging.vto`)
 2. Add frontmatter with layout and currentPage (if support section)
-3. Run `deno task build` to test
+3. Run `deno task build` to test — `sync:model` Step 4 overlays every `.vto`/`.md` under `_overrides/{community}/` (except `assets/`) onto `sites/{community}/`
 4. Build automatically creates `/newpage/` route for that community only
+5. If it needs a nav tab, add it to `support-nav.vto` inside an `{{ if esco.name == "..." }}` block
 
 **Support pages use special layout:**
 ```yaml
@@ -247,7 +248,9 @@ The support layout (`_includes/layouts/support.vto`) automatically:
 
 ### Support Navigation
 
-The support nav component (`_includes/components/support-nav.vto`) expects `currentPage` variable to highlight active tab. Values: `support`, `faq`, `energyadvice`.
+The support nav component (`_includes/components/support-nav.vto`) expects `currentPage` variable to highlight active tab. Values: `support`, `faq`, `energyadvice`, and (Hazelmead only) `evcharging`.
+
+The "Charging Electric Vehicles" tab is wrapped in `{{ if esco.name == "Hazelmead" }}` because the page behind it (`_overrides/hazelmead/support/ev-charging.vto`) only exists for Hazelmead. Water Lilies keeps three tabs.
 
 ## Styling Architecture
 
@@ -332,5 +335,5 @@ Support pages follow a specific pattern for consistency:
 - Vento template tags cannot be nested inside HTML tags (causes "Unclosed tag" errors)
 - URL paths are rewritten during build; source paths don't match output paths
 - Shared assets are copied to both communities (duplicated in output)
-- Support nav expects exactly 3 tabs: Vulnerability Policy, FAQ, Energy Advice
+- Support nav has 3 shared tabs (Vulnerability Policy, FAQ, Energy Advice) plus a Hazelmead-only fourth (Charging Electric Vehicles); community-specific tabs are conditional on `esco.name`
 - Selector page cache-busting headers prevent browser caching but require one hard refresh after deployment
